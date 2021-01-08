@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<section class="ftco-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                {% for post in data %}
+                <div class="case">
+                    <div class="row">
+                        <div>
+                            <div class="text w-100 pl-md-3">
+                                <h2><a href=" {% url 'post' id=post.id %} ">{{ post.title }}</a></h2>
+                                {% for section in post.content %}
+                                <h2 class="mb-3">{{ section.section_title }}</h2>
+                                {% for p in section.section_content %}
+                                <p>{{ p }}</p>
+                                {% endfor %}
+                                {% endfor %}
+                                <div class="meta">
+                                    <p class="mb-0">{{ post.date }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="row mt-5">
+            <div class="col text-center">
+                <div class="block-27">
+                    <ul>
+                        {% if nav_bar.0 != 0%}
+                        <li><a href="{% url 'home' page=nav_bar.0 %}">&lt;&lt;</a></li>
+                        {% endif %}
+                        {% for i in nav_bar.1 %}
+                        {% if i == page %}
+                        <li class="active"><span>{{ i }}</span></li>
+                        {% else %}
+                        <li><a href="page={{ i }}">{{ i }}</a></li>
+                        {% endif %}
+                        {% endfor %}
+                        {% if nav_bar.2 != 0%}
+                        <li><a href="{% url 'home' page=nav_bar.2 %}">&gt;&gt;</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

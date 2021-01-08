@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<section class="ftco-section">
+    {% for post in posts %}
+        <a href="/blog/admin/post/update/{{post.id}}">{{post.title|safe}}</a><br>
+    {% endfor %}
+</section>
+{% endblock %}

@@ -1,0 +1,23 @@
+#content-editor, #content-vn-editor {
+    border: 1px solid black;
+}
+
+#content-editor:focus, #content-vn-editor:focus {
+    border: 1px solid #1f89e5;
+    box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.1) ,;
+}
+
+.lable-editor {
+    color: red;
+}
+
+#post-title, #post-title-vn {
+    width: 100%;
+    border: 1px solid black;
+}
+
+#post-title:focus, #post-title-vn:focus {
+    outline: none;
+    border: 1px solid #1f89e5 !important;
+    box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.1) ,;
+}

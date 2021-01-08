@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% load static %}
+{% load custom_tags %}
+{% block content %}
+<section class="ftco-section ftco-degree-bg">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 ftco-animate">
+                <p class="mb-5">
+                    <img src=" {% static 'images/image_1.jpg' %} " alt="" class="img-fluid">
+                </p>
+                <p id="post_id" hidden>{{ post.id }}</p>
+                <h2>{{post.title|safe}}</h2>
+                {{post.content|replace_quotes|safe}}
+                <div class="tag-widget post-tag-container mb-5 mt-5">
+                    <div class="tagcloud">
+                        <a href="#" class="tag-cloud-link">Life</a>
+                        <a href="#" class="tag-cloud-link">Sport</a>
+                        <a href="#" class="tag-cloud-link">Tech</a>
+                        <a href="#" class="tag-cloud-link">Travel</a>
+                    </div>
+                </div>
+                <div class="about-author d-flex p-4 bg-light">
+                    <div class="bio mr-5">
+                        <img src=" {% static 'images/person_1.jpg' %} " alt="Image placeholder" class="img-fluid mb-4">
+                    </div>
+                    <div class="desc">
+                        <h3>George Washington</h3>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ducimus itaque, autem necessitatibus voluptate quod mollitia delectus aut, sunt placeat nam vero culpa sapiente consectetur similique, inventore eos fugit cupiditate numquam!</p>
+                    </div>
+                </div>
+                <div class="pt-5 mt-5" id="commentContainer">
+                    <h3 class="mb-5">{{ post.comments_count }} Comments</h3>
+                    <ul class="comment-list" id="commentList">
+                    </ul>
+                    <!-- END comment-list -->
+                    <button id="viewMoreComment" class="btn" onclick="loadComment()">View more comments</button>                    
+                    <div class="comment-form-wrap pt-5" id="leaveComment">
+                        <!-- <button class="btn" data-toggle="collapse" data-target="#leaveCommentForm" ><h3>Leave a comment</h3></button>
+                        <form id="leaveCommentForm" class="p-5 bg-light collapse">
+                            <div class="form-group">
+                                <label for="name">Name *</label>
+                                <input type="text" class="form-control" id="name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="message">Message *</label>
+                                <textarea name="" id="message" cols="30" rows="10" class="form-control" required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <input type="submit" value="Post Comment" class="btn py-3 px-4 btn-primary">
+                            </div>
+                        </form> -->
+                    </div>
+                </div>
+            </div> <!-- .col-md-8 -->
+            <div class="col-lg-4 sidebar pl-lg-5 ftco-animate">
+                <div class="sidebar-box ftco-animate" id="side_bar_recents">
+                    <h3>Recent Posts</h3>
+                </div>
+                <div class="sidebar-box ftco-animate">
+                    <div class="categories">
+                        <h3>Categories</h3>
+                        <li><a href="#">Illustration <span class="ion-ios-arrow-forward"></span></a></li>
+                        <li><a href="#">Branding <span class="ion-ios-arrow-forward"></span></a></li>
+                        <li><a href="#">Application <span class="ion-ios-arrow-forward"></span></a></li>
+                        <li><a href="#">Design <span class="ion-ios-arrow-forward"></span></a></li>
+                        <li><a href="#">Marketing <span class="ion-ios-arrow-forward"></span></a></li>
+                    </div>
+                </div>
+                <div class="sidebar-box ftco-animate">
+                    <h3>Tag Cloud</h3>
+                    <div class="tagcloud">
+                        <a href="#" class="tag-cloud-link">cat</a>
+                        <a href="#" class="tag-cloud-link">abstract</a>
+                        <a href="#" class="tag-cloud-link">people</a>
+                        <a href="#" class="tag-cloud-link">person</a>
+                        <a href="#" class="tag-cloud-link">model</a>
+                        <a href="#" class="tag-cloud-link">delicious</a>
+                        <a href="#" class="tag-cloud-link">desserts</a>
+                        <a href="#" class="tag-cloud-link">drinks</a>
+                    </div>
+                </div>
+                <div class="sidebar-box ftco-animate">
+                    <h3>Paragraph</h3>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ducimus itaque, autem necessitatibus voluptate quod mollitia delectus aut, sunt placeat nam vero culpa sapiente consectetur similique, inventore eos fugit cupiditate numquam!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section> <!-- .section -->
+{% endblock %}

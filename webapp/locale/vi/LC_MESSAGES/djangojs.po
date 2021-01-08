@@ -1,0 +1,56 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-12-07 11:47+0700\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: .\blog\static\js\customize.js:81
+msgid "Write here..."
+msgstr "Nội dung..."
+
+#: .\blog\static\js\customize.js:81 .\blog\static\js\customize.js:115
+#: .\blog\static\js\customize.js:199 .\blog\static\js\customize.js:205
+msgid "Reply"
+msgstr "Trả lời"
+
+#: .\blog\static\js\customize.js:81
+msgid "Cancel"
+msgstr "Hủy"
+
+#: .\blog\static\js\customize.js:86 .\blog\static\js\customize.js:272
+msgid "Login"
+msgstr "Đăng nhập"
+
+#: .\blog\static\js\customize.js:86 .\blog\static\js\customize.js:272
+msgid "to leave comments"
+msgstr "để bình luận"
+
+#: .\blog\static\js\customize.js:253
+msgid "Leave a comment"
+msgstr "Bình luận"
+
+#: .\blog\static\js\customize.js:256
+msgid "Name"
+msgstr "Tên"
+
+#: .\blog\static\js\customize.js:260
+msgid "Message"
+msgstr "Nội dung"
+
+#: .\blog\static\js\customize.js:264
+msgid "Comment"
+msgstr "Bình luận"

@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<section class="ftco-section">
+    <select name="category" id="category" onchange="myFunction()">
+        <option value="Technology">Technology</option>
+        <option value="Tutorial">Tutorial</option>
+        <option value="Design">Design</option>
+    </select>
+    <br><br>
+
+    <div class="post-editor">
+        <h6 style="color: blue;">Englist version</h6>
+        <p class="lable-editor">Title:</p>
+        <div id="title-editor">
+            <textarea id="post-title"></textarea>
+        </div>
+
+        <p class="lable-editor">Content:</p>
+        <div id="content-editor">
+        </div>
+        <br>
+
+        <h6 style="color: blue;">Vietnamese version</h6>
+        <p class="lable-editor">Title:</p>
+        <div id="title-vn-editor">
+            <textarea id="post-title-vn"></textarea>
+        </div>
+
+        <p class="lable-editor">Content:</p>
+        <div id="content-vn-editor">
+        </div>
+    </div>
+    <br>
+    <button type="button" onclick="updatePost()">Submit</button>
+</section>
+<script>
+    let title_editor
+    let content_editor
+    let title_vn_editor
+    let content_vn_editor
+    function updatePost() {
+        let category = document.getElementById("category").value
+        console.log(category)
+
+        let title = document.getElementById("post-title").value
+        console.log(title)
+
+        let content = content_editor.getData();
+        console.log(content)
+
+        let title_vn = document.getElementById("post-title-vn").value
+        console.log(title_vn)
+
+        let content_vn = content_vn_editor.getData();
+        console.log(content_vn)
+
+        let dataString = '{ "category":"' + category + '",' +
+            '"title":"' + standardize_request(title) + '",' +
+            '"content":"' + standardize_request(content) + '",' +
+            '"title_vn":"' + standardize_request(title_vn) + '",' +
+            '"content_vn":"' + standardize_request(content_vn) + '"' +
+            '}';
+
+        $.ajax({
+            type: "POST",
+            url: "/en/blog/admin/post/create/",
+            contentType: 'application/json',
+            data: dataString,
+            success: function (dataserver) {
+                console.log(dataserver)
+            }
+        });
+    };
+
+    InlineEditor
+        .create(document.querySelector('#content-editor'), {
+            toolbar: [ 'heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote' ],
+        heading: {
+            options: [
+                { model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph' },
+                { model: 'heading1', view: 'h1', title: 'Heading 1', class: 'ck-heading_heading1' },
+                { model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' }
+            ]
+        }
+        })
+        .then(newEditor => {
+            content_editor = newEditor;
+        })
+        .catch(error => {
+            console.error(error);
+        });
+
+    InlineEditor
+        .create(document.querySelector('#content-vn-editor'), {
+            toolbar: [ 'heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote' ],
+        heading: {
+            options: [
+                { model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph' },
+                { model: 'heading1', view: 'h1', title: 'Heading 1', class: 'ck-heading_heading1' },
+                { model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' }
+            ]
+        }
+        })
+        .then(newEditor => {
+            content_vn_editor = newEditor;
+        })
+        .catch(error => {
+            console.error(error);
+        });
+</script>
+{% endblock %}

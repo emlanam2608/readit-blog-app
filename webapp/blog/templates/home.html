@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% load static %}
+{% load i18n %}
+{% load custom_tags %}
+{% block content %}
+<section class="ftco-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                {% for post in data %}
+                <div class="case">
+                    <div class="row">
+                        <div class="col-md-6 col-lg-6 col-xl-8 d-flex">
+                            <a href=" {% url 'post' id=post.id %} " class="img w-100 mb-3 mb-md-0"
+                               style="background-image: url( {% static 'images/image_1.jpg' %} );"></a>
+                        </div>
+                        <div class="col-md-6 col-lg-6 col-xl-4 d-flex">
+                            <div class="text w-100 pl-md-3">
+                                <span class="subheading">{% trans post.category %}</span>
+                                <h2><a href=" {% url 'post' id=post.id %} ">{{ post.title|replace_quotes }}</a></h2>
+                                <div class="meta">
+                                    <p class="mb-0 content">{{ post.content|replace_quotes }}</p>
+                                    <p class="mb-0">{{ post.date }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="row mt-5">
+            <div class="col text-center">
+                <div class="block-27">
+                    <ul>
+                        {% if nav_bar.0 != 0%}
+                        <li><a href="{% url 'home' page=nav_bar.0 %}">&lt;&lt;</a></li>
+                        {% endif %}
+                        {% for i in nav_bar.1 %}
+                        {% if i == page %}
+                        <li class="active"><span>{{ i }}</span></li>
+                        {% else %}
+                        <li><a href="{% url 'home' page=i %}">{{ i }}</a></li>
+                        {% endif %}
+                        {% endfor %}
+                        {% if nav_bar.2 != 0%}
+                        <li><a href="{% url 'home' page=nav_bar.2 %}">&gt;&gt;</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
