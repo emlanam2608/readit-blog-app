@@ -95,7 +95,7 @@ DATABASES = {
         'ENGINE': 'djongo',
         'NAME': 'blog_data',
         'CLIENT': {
-            'host': '127.0.0.1',
+            'host': 'mongodb+srv://admin:admindb123@cluster0.ospfa.mongodb.net/blog_data?retryWrites=true&w=majority',
             'port': 27017
         }
    }
