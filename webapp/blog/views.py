@@ -377,7 +377,7 @@ def post(request, id):
 
 
 def find_category(regex):
-    categories = ["Technology", "Tutorial", "Design"]
+    categories = ["Technology", "Coding", "Inspiration"]
     for category in categories:
         if re.search(regex, category, re.IGNORECASE):
             return category

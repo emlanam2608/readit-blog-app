@@ -1,12 +1,14 @@
 {% extends "base.html" %}
 {% load static %}
+{% load i18n %}
 {% block content %}
-<section class="ftco-section bg-light">
+<section id="all-data" class="ftco-section bg-light">
     <div class="container">
+        <h1 id="all-data-wraper" style="overflow:hidden;text-align:center;margin-bottom:20px;">NEWEST BLOGS</h1>
         <div class="row d-flex">
             {% for post in data %}
                 <div class="col-md-4 d-flex ftco-animate">
-                    <div class="blog-entry justify-content-end">
+                    <div class="blog-entry justify-content-end" style="width:100%; margin-bottom: 0;">
                     <a href=" {% url 'post' id=post.id %} " class="block-20" style="background-image: url(' {% static 'images/image_1.jpg' %} ');">
                     </a>
                         <div class="text p-4 float-right d-block">
@@ -21,13 +23,13 @@
                             </div>
                             <h3 class="heading mb-3"><a href="{% url 'post' id=post.id %}">{{ post.title }}</a></h3>
                             <p>{{ post.content }}</p>
-                            <p><a href="{% url 'post' id=post.id %}" class="btn-custom"><span class="ion-ios-arrow-round-forward mr-3"></span>Read more</a></p>
+                            <p><a href="{% url 'post' id=post.id %}" class="btn-custom"><span class="ion-ios-arrow-round-forward mr-3"></span>{% trans "Read more" %}</a></p>
                         </div>
                     </div>
                 </div>
             {% endfor %}
         </div>
-        <div class="row mt-5">
+        <div class="row mt-5" style="margin-top: 0 !important;">
             <div class="col text-center">
                 <div class="block-27">
                     <ul>

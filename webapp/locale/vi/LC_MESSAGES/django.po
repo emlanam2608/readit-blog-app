@@ -28,20 +28,20 @@ msgstr "Danh mục"
 msgid "Home"
 msgstr "Trang chủ"
 
-#: .\blog\templates\snippet\footer.html:25
+#: .\blog\templates\snippet\footer.html:23
 #: .\blog\templates\snippet\header.html:13
-msgid "Design"
-msgstr "Thiết kế"
+msgid "Coding"
+msgstr "Lập trình"
 
 #: .\blog\templates\snippet\footer.html:26
 #: .\blog\templates\snippet\header.html:12
 msgid "Technology"
 msgstr "Công nghệ"
 
-#: .\blog\templates\snippet\footer.html:27
+#: .\blog\templates\snippet\footer.html:24
 #: .\blog\templates\snippet\header.html:14
-msgid "Tutorial"
-msgstr "Hướng dẫn"
+msgid "Inspiration"
+msgstr "Nguồn cảm hứng"
 
 #: .\blog\templates\snippet\footer.html:28
 #: .\blog\templates\snippet\header.html:15
@@ -79,8 +79,8 @@ msgstr "Chào mừng đến với"
 msgid "technology"
 msgstr "Công nghệ"
 
-msgid "tutorial"
-msgstr "Hướng dẫn"
+msgid "inspiration"
+msgstr "Nguồn cảm hứng"
 
-msgid "design"
-msgstr "Thiết kế"
+msgid "coding"
+msgstr "Lập trình"

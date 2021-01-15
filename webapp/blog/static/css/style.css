@@ -44,7 +44,8 @@ html {
   font-family: sans-serif;
   line-height: 1.15;
   -webkit-text-size-adjust: 100%;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0); }
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  scroll-behavior: smooth; }
 
 article, aside, figcaption, figure, footer, header, hgroup, main, nav, section {
   display: block; }
@@ -8234,7 +8235,7 @@ h1, h2, h3, h4, h5,
   position: relative; }
 
 .slider-text h1 {
-  font-size: 10vw;
+  font-size: 10rem;
   color: #fff;
   line-height: 1.2;
   font-weight: 700;
@@ -8267,7 +8268,7 @@ h1, h2, h3, h4, h5,
   color: #fff; }
 
 .slider-text .breadcrumbs {
-  font-size: 16px;
+  font-size: 1.2rem;
   font-weight: 400;
   margin-bottom: 20px;
   z-index: 99; }
@@ -9283,4 +9284,41 @@ a.replycm:hover {
 #replyCommentForm div.form-group button:nth-of-type(1):hover {
     color: #8e6603 !important;
     text-decoration: underline;
+}
+
+#all-data-wraper:before, #all-data-wraper:after {
+  background-color: #000;
+  content: "";
+  display: inline-block;
+  height: 1px;
+  position: relative;
+  vertical-align: middle;
+  width: 50%;
+}
+
+#all-data-wraper:before {
+  right: 0.5em;
+  margin-left: -50%;
+}
+
+#all-data-wraper:after {
+  left: 0.5em;
+  margin-right: -50%;
+}
+
+a#login, a#logout, a#signup {
+  color: black;
+}
+
+
+a#login:hover, a#logout:hover, a#signup:hover {
+  color: #ffd369;
+}
+
+#viewMoreComment {
+  padding: 0;
+}
+
+#viewMoreComment:hover {
+  text-decoration: underline;
 }

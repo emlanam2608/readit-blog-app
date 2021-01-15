@@ -10,28 +10,24 @@
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item {% if request.resolver_match.url_name == 'home' %} active {%endif%}"><a href=" {% url 'home' %} " class="nav-link">{% trans "Home" %}</a></li>
                 <li class="nav-item {% if nav_tab == 'technology' %} active {%endif%}"><a href=" {% url 'category' cat='technology' %} " class="nav-link">{% trans "Technology" %}</a></li>
-                <li class="nav-item {% if nav_tab == 'design' %} active {%endif%}"><a href=" {% url 'category' cat='design' %} " class="nav-link">{% trans "Design" %}</a></li>
-                <li class="nav-item {% if nav_tab == 'tutorial' %} active {%endif%}"><a href=" {% url 'category' cat='tutorial' %} " class="nav-link">{% trans "Tutorial" %}</a></li>
+                <li class="nav-item {% if nav_tab == 'coding' %} active {%endif%}"><a href=" {% url 'category' cat='coding' %} " class="nav-link">{% trans "Coding" %}</a></li>
+                <li class="nav-item {% if nav_tab == 'inspiration' %} active {%endif%}"><a href=" {% url 'category' cat='inspiration' %} " class="nav-link">{% trans "Inspiration" %}</a></li>
                 <li class="nav-item {% if request.resolver_match.url_name == 'contact' %} active {%endif%}"><a href=" {% url 'contact' %} " class="nav-link">{% trans "Contact" %}</a></li>
                 <li style="display:flex; align-items:center; max-width: 12rem;">
                     <form action="{% url 'search' %}" class="search-form">
                         <div class="form-group" style="margin-bottom:0 !important;" >
                             <span class="icon icon-search"></span>
-                            <input type="text" class="form-control" placeholder="{% trans "Search" %}" name="keyword">
+                            <input type="text" class="form-control" placeholder="{% trans 'Search' %}" name="keyword">
                         </div>
                     </form>
                 </li>
-                <li class="nav-item" style="position: absolute; right: 100px; top: 20px; font-weight: bold;">
+                <li class="nav-item" style="display: flex;font-weight: bold;align-items: center;">
                     {% if user.username %}
-                        <div>
-                            <p style="color: black;">{% trans 'Welcome' %},<span id="username">{{user.username}}</span></p>
-                            <a id="logout" href="{% url 'logout' %}?next={{request.path}}" style="position: absolute; right: 0px; top: 20px;">{% trans 'Logout' %}</a>
-                        </div>
+                            <p style="color: black;margin-bottom: 0;margin: auto 10px;">{% trans 'Welcome' %},<span id="username">{{user.username}}</span></p>
+                            <a id="logout" href="{% url 'logout' %}?next={{request.path}}">{% trans 'Logout' %}</a>
                     {% else %}
-                        <div>
-                            <a id="login" href="{% url 'login' %}?next={{request.path}}" style="margin-right: 10px;">{% trans 'Login' %}</a>
+                            <a id="login" href="{% url 'login' %}?next={{request.path}}" style="margin: auto 10px;">{% trans 'Login' %}</a>
                             <a id="signup" href="{% url 'signup' %}?next={{request.path}}">{% trans 'Sign up' %}</a>
-                        </div>
                     {% endif %}
                 </li>
                 <li>
@@ -60,10 +56,15 @@
 <section class="hero-wrap hero-wrap-2 js-fullheight" style="background-image: url(' {% static 'images/bg_1.jpg' %} ');" data-stellar-background-ratio="0.5">
     <div class="overlay"></div>
     <div class="container">
-        <div class="row no-gutters slider-text js-fullheight align-items-end justify-content-center">
+        <div class="row no-gutters slider-text js-fullheight align-items-center justify-content-center">
             <div class="col-md-9 ftco-animate pb-5 text-center">
                 <h1 class="mb-3 bread">{% trans nav_tab|title %}</h1>
-                <p class="breadcrumbs"><span class="mr-2"><a href=" {% url 'home' %} ">Home <i class="ion-ios-arrow-forward"></i></a></span> <span class="mr-2"><a href=" {% url 'home' %} ">Blog <i class="ion-ios-arrow-forward"></i></a></span> <span>Blog Single <i class="ion-ios-arrow-forward"></i></span></p>
+                <p class="breadcrumbs"><span class="mr-2"><a href=" {% url 'home' %} ">Home <i class="ion-ios-arrow-forward"></i></a></span> <span class="mr-2"><a href=" {% url 'home' %} ">Category <i class="ion-ios-arrow-forward"></i></a></span> <span>Category_Name <i class="ion-ios-arrow-forward"></i></span></p>
+                <div class="mouse" style="position:unset;">
+                    <a href="#all-data" class="mouse-icon">
+                        <div class="mouse-wheel"><span class="ion-ios-arrow-round-down"></span></div>
+                    </a>
+                </div>
             </div>
         </div>
     </div>
@@ -79,10 +80,10 @@
                 <div class="row">
                     <div class="col-md-7">
                         <div class="text">
-                            {% comment %} <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p> {% endcomment %}
+                            <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
                             <div class="mouse">
-                                <a href="#blockContent" class="mouse-icon">
-                                <div class="mouse-wheel"><span class="ion-ios-arrow-round-down"></span></div>
+                                <a href="#" class="mouse-icon">
+                                    <div class="mouse-wheel"><span class="ion-ios-arrow-round-down"></span></div>
                                 </a>
                             </div>
                         </div>
