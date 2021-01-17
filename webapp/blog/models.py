@@ -21,6 +21,7 @@ from django.utils.text import slugify
 #         return f"{self.title}"
 
 class Category(models.Model):
+    id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255)
     objects = models.DjongoManager()
 
@@ -29,6 +30,7 @@ class Category(models.Model):
 
 
 class Post(models.Model):
+    id = models.AutoField(primary_key=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='posts')
     title = models.CharField(max_length=255)
     title_vn = models.CharField(max_length=255)
@@ -44,6 +46,7 @@ class Post(models.Model):
 
 
 class Comment(models.Model):
+    id = models.AutoField(primary_key=True)
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments')
     parent = models.ForeignKey('self', on_delete=models.CASCADE, blank=True, related_name='children', null=True)
     reply = models.CharField(max_length=100, editable=False)
