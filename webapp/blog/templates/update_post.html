@@ -2,14 +2,20 @@
 {% load static %}
 {% block content %}
 <section class="ftco-section">
-    <select name="category" id="category" onchange="myFunction()">
+    <select name="category" id="category">
         <option value="Technology">Technology</option>
-        <option value="Tutorial">Tutorial</option>
-        <option value="Design">Design</option>
+        <option value="Coding" {% if post.category == "Coding" %} selected= "selected" {% endif %}>Coding</option>
+        <option value="Inpriration">Inpriration</option>
     </select>
-    <br>
+    <br><br>
     <div class="post-editor">
         <p id="post-id" hidden>{{ post.id }}</p>
+        
+        <p class="lable-editor">Thumbnail:</p>
+        <div id="thumbnail-editor">
+           {{post.thumbnail|safe}}
+        </div>
+
         <h6 style="color: blue;">Englist version</h6>
         <p class="lable-editor">Title:</p>
         <div id="title-editor">
@@ -35,7 +41,7 @@
     </div>
     <br>
     <button type="button" onclick="updatePost()">Submit</button>
-    <!-- <button type="button" onclick="test()">test</button> -->
+    <button type="button" onclick="test()">test</button>
 </section>
 <script>
     let title_editor
@@ -44,25 +50,19 @@
     let content_vn_editor
     function updatePost() {
         let category = document.getElementById("category").value
-        console.log(category)
-
         let title = document.getElementById("post-title").value
-        console.log(title)
-
         let content = content_editor.getData();
-        console.log(content)
-
         let title_vn = document.getElementById("post-title-vn").value
-        console.log(title_vn)
-
         let content_vn = content_vn_editor.getData();
-        console.log(content_vn)
-
+        let thumbnail = thumbnail_editor.getData();
+        let re = /src=(\"|\')(.*)(\"|\')/g
+        thumbnail = re.exec(thumbnail)[2]
         let dataString = '{ "category":"' + category + '",' +
             '"title":"' + standardize_request(title) + '",' +
             '"content":"' + standardize_request(content) + '",' +
             '"title_vn":"' + standardize_request(title_vn) + '",' +
-            '"content_vn":"' + standardize_request(content_vn) + '"' +
+            '"content_vn":"' + standardize_request(content_vn) + '",' +
+            '"thumbnail":"' + standardize_request(thumbnail) + '"' +
             '}';
 
         let id = document.getElementById("post-id").innerHTML;
@@ -80,7 +80,7 @@
     };
     InlineEditor
         .create(document.querySelector('#content-editor'), {
-            toolbar: [ 'heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote' ],
+            toolbar: [ 'heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote', 'code', 'codeBlock', "imageInsert",],
         heading: {
             options: [
                 { model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph' },
@@ -98,7 +98,7 @@
 
     InlineEditor
         .create(document.querySelector('#content-vn-editor'), {
-            toolbar: [ 'heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote' ],
+            toolbar: [ 'heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote', 'code', 'codeBlock', "imageInsert",],
         heading: {
             options: [
                 { model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph' },
@@ -109,6 +109,22 @@
         })
         .then(newEditor => {
             content_vn_editor = newEditor;
+        })
+        .catch(error => {
+            console.error(error);
+        });
+
+        function test () {
+            x = Array.from( content_editor.ui.componentFactory.names() );
+            console.log(x);
+        };
+
+    InlineEditor
+        .create(document.querySelector('#thumbnail-editor'), {
+            toolbar: ["imageInsert"],
+        })
+        .then(newEditor => {
+            thumbnail_editor = newEditor;
         })
         .catch(error => {
             console.error(error);

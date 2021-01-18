@@ -38,6 +38,7 @@ class Post(models.Model):
     content_vn = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     update_at = models.DateTimeField(auto_now=True)
+    thumbnail = models.TextField(null=True)
     # publish = models.DateTimeField(auto_now=False, auto_now_add=False)
     objects = models.DjongoManager()
 

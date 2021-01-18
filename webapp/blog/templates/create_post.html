@@ -2,14 +2,19 @@
 {% load static %}
 {% block content %}
 <section class="ftco-section">
-    <select name="category" id="category" onchange="myFunction()">
+    <select name="category" id="category">
         <option value="Technology">Technology</option>
-        <option value="Tutorial">Tutorial</option>
-        <option value="Design">Design</option>
+        <option value="Coding">Coding</option>
+        <option value="Inspiration">Inspiration</option>
     </select>
     <br><br>
 
     <div class="post-editor">
+        <p class="lable-editor">Thumbnail:</p>
+        <div id="thumbnail-editor">
+            <textarea id="post-thumbnail">{{post.thumbnail|safe}}</textarea>
+        </div>
+
         <h6 style="color: blue;">Englist version</h6>
         <p class="lable-editor">Title:</p>
         <div id="title-editor">
@@ -41,25 +46,20 @@
     let content_vn_editor
     function updatePost() {
         let category = document.getElementById("category").value
-        console.log(category)
-
         let title = document.getElementById("post-title").value
-        console.log(title)
-
         let content = content_editor.getData();
-        console.log(content)
-
         let title_vn = document.getElementById("post-title-vn").value
-        console.log(title_vn)
-
         let content_vn = content_vn_editor.getData();
-        console.log(content_vn)
+        let thumbnail = thumbnail_editor.getData();
+        let re = /src=(\"|\')(.*)(\"|\')/g
+        thumbnail = re.exec(thumbnail)[2]
 
         let dataString = '{ "category":"' + category + '",' +
             '"title":"' + standardize_request(title) + '",' +
             '"content":"' + standardize_request(content) + '",' +
             '"title_vn":"' + standardize_request(title_vn) + '",' +
-            '"content_vn":"' + standardize_request(content_vn) + '"' +
+            '"content_vn":"' + standardize_request(content_vn) + '",' +
+            '"thumbnail":"' + standardize_request(thumbnail) + '"' +
             '}';
 
         $.ajax({
@@ -75,7 +75,7 @@
 
     InlineEditor
         .create(document.querySelector('#content-editor'), {
-            toolbar: [ 'heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote' ],
+            toolbar: [ 'heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote', 'code', 'codeBlock', "imageInsert",],
         heading: {
             options: [
                 { model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph' },
@@ -93,7 +93,7 @@
 
     InlineEditor
         .create(document.querySelector('#content-vn-editor'), {
-            toolbar: [ 'heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote' ],
+            toolbar: [ 'heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote', 'code', 'codeBlock', "imageInsert",],
         heading: {
             options: [
                 { model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph' },
@@ -104,6 +104,17 @@
         })
         .then(newEditor => {
             content_vn_editor = newEditor;
+        })
+        .catch(error => {
+            console.error(error);
+        });
+
+    InlineEditor
+        .create(document.querySelector('#thumbnail-editor'), {
+            toolbar: ["imageInsert"],
+        })
+        .then(newEditor => {
+            thumbnail_editor = newEditor;
         })
         .catch(error => {
             console.error(error);

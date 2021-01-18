@@ -9322,3 +9322,84 @@ a#login:hover, a#logout:hover, a#signup:hover {
 #viewMoreComment:hover {
   text-decoration: underline;
 }
+
+#content-editor, #content-vn-editor, #thumbnail-editor {
+  border: 1px solid black;
+}
+
+#content-editor:focus, #content-vn-editor:focus, #thumbnail-editor:focus {
+  border: 1px solid #1f89e5;
+  box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.1) ,;
+}
+
+.lable-editor {
+  color: red;
+}
+
+#post-title, #post-title-vn {
+  width: 100%;
+  border: 1px solid black;
+}
+
+#post-title:focus, #post-title-vn:focus {
+  outline: none;
+  border: 1px solid #1f89e5 !important;
+  box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.1) ,;
+}
+
+blockquote {
+  overflow: hidden;
+  padding-right: 1.5em;
+  padding-left: 1.5em;
+  margin-left: 0;
+  margin-right: 0;
+  font-style: italic;
+  border-left: 5px solid #ccc;
+}
+
+code {
+  font-size: 87.5%;
+  color: #e83e8c;
+  word-break: break-word;
+  padding: .15em;
+  border-radius: 2px;
+  background-color: #c7c7c780;
+}
+
+pre  {
+  font-size: inherit;
+  word-break: normal;
+  padding: 1em;
+  color: #353535;
+  background: hsla(0,0%,78%,.3);
+  border: 1px solid #c4c4c4;
+  border-radius: 2px;
+  text-align: left;
+  tab-size: 4;
+  white-space: pre-wrap;
+  font-style: normal;
+  min-width: 200px;
+
+  display: block;
+  font-size: 87.5%;
+  color: #212529;
+}
+
+pre code {
+  font-size: inherit;
+  color: inherit;
+  word-break: normal;
+  background: unset;
+  padding: 0;
+  border-radius: 0;
+}
+
+figure img {
+  max-width: 100%;
+  margin: auto;
+}
+
+.header-post{
+  top: 0px;
+  background: linear-gradient(45deg, #f200ff 0%, #ffba42 100%) !important;
+}

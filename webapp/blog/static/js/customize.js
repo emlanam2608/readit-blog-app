@@ -179,6 +179,8 @@ var loadComment = () => {
     // alert(data.length);
     // var max = 1;
     // var len = document.getElementById('commentList').childElementCount;
+    // var viewMoreCommentsButton = document.getElementById("viewMoreComment");
+
     for (start; start < data.length; start++) {
         if (start <= stop) {
             parent = data[start];
@@ -190,7 +192,11 @@ var loadComment = () => {
         }
     }
     if (start == data.length) {
-        $('#viewMoreComment').remove();
+        // $('#viewMoreComment').remove();
+        document.getElementById("viewMoreComment").style.display = "none";
+    }
+    else {
+        document.getElementById("viewMoreComment").style.display = "block";
     }
 }
 
@@ -250,7 +256,7 @@ function is_logged_in() {
 
 function init_comment_func() {
     if(sessionStorage.getItem('loginStatus') == 'loggedIn') {
-        var html =  '<button class="btn" data-toggle="collapse" data-target="#leaveCommentForm" ><h3>Leave a comment</h3></button>' +
+        var html =  '<button class="btn" data-toggle="collapse" data-target="#leaveCommentForm" style="padding:0;" ><h3>Leave a comment</h3></button>' +
                     '<form id="leaveCommentForm" class="p-5 bg-light collapse">' +
                         '<div class="form-group">' +
                             '<label for="name">Name *</label>' +
@@ -277,6 +283,7 @@ function init_comment_func() {
 
 $(document).ready(function () {
     var post_id = document.getElementById("post_id").innerText;
+    document.getElementById("viewMoreComment").style.display = "none";
     preload_comments(post_id);
     load_recent_posts();
     is_logged_in();

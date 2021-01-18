@@ -49,12 +49,14 @@ def create_post(request):
             content = received_json_data["content"]
             title_vn = received_json_data["title_vn"]
             content_vn = received_json_data["content_vn"]
+            thumbnail = received_json_data["thumbnail"]
             post = Post(
                 category=Category.objects.get(name=category),
                 title=title,
                 content=content,
                 title_vn=title_vn,
                 content_vn=content_vn,
+                thumbnail=thumbnail,
             )
             post.save()
         return render(request, "create_post.html")
@@ -80,12 +82,14 @@ def update_post(request, id):
                 content = received_json_data["content"]
                 title_vn = received_json_data["title_vn"]
                 content_vn = received_json_data["content_vn"]
+                thumbnail = received_json_data["thumbnail"]
                 post = get_object_or_404(Post, id=int(id))
                 post.category = Category.objects.get(name=category)
                 post.title = title
                 post.content = content
                 post.title_vn = title_vn
                 post.content_vn = content_vn
+                post.thumbnail = thumbnail
                 post.save()
                 return redirect(f"/blog/admin/post/update/{int(id)}")
             else:
@@ -97,6 +101,7 @@ def update_post(request, id):
                     "content": post.content,
                     "title_vn": post.title_vn,
                     "content_vn": post.content_vn,
+                    "thumbnail": f"<figure class='image'><img src='{post.thumbnail}'></figure>"
                 }
                 return render(request, "update_post.html", {"post": data})
     else:
@@ -132,7 +137,7 @@ def login_user(request):
         user = authenticate(username=username, password=raw_password)
         if user is not None:
             login(request, user)
-            redirect_to = str(request)[str(request).find("next") + 8 : -2]
+            redirect_to = str(request)[str(request).find("next") + 8: -2]
             print(redirect_to)
             # redirect_to = (
             #     request.POST.get("next", "")
@@ -220,13 +225,15 @@ def post_comment(request):
                     post_id=post_id, author=author, content=content, parent_id=parent_id
                 )
             else:
-                comment = Comment(post_id=post_id, author=author, content=content)
+                comment = Comment(
+                    post_id=post_id, author=author, content=content)
 
             comment.save()
 
             post = get_object_or_404(Post, id=int(post_id))
             latest_comment = post.comments.all().order_by("created_at").values().last()
-            latest_comment["created_at"] = format_datetime(latest_comment["created_at"])
+            latest_comment["created_at"] = format_datetime(
+                latest_comment["created_at"])
 
             return HttpResponse(
                 json.dumps(latest_comment), content_type="application/json"
@@ -239,7 +246,7 @@ def post_comment(request):
 
 
 def truncate(string, length):
-    splitted_string = string.split()
+    splitted_string = remove_html_tags(string).split()
     if len(splitted_string) > length:
         return " ".join(map(str, splitted_string[:length])) + "..."
     else:
@@ -266,6 +273,7 @@ def get_recent_posts(request, page=1):
                     else truncate(post[index].content_vn, 30),
                     "date": post[index].created_at,
                     "number_comments": post[index].comments.count(),
+                    "thumbnail": post[index].thumbnail,
                 }
             )
         else:
@@ -289,7 +297,7 @@ def get_recent_posts(request, page=1):
         return data, max_length
 
 
-def get_post(id):
+def get_post(request, id):
     # post = Post.objects.get(_id=ObjectId(id))
     post = get_object_or_404(Post, id=int(id))
     parents = []
@@ -318,6 +326,7 @@ def get_post(id):
         "comments": parents,
         "comments_count": comments_count,
         "date": post.created_at,
+        "thumbnail": post.thumbnail,
     }
     return data
 
@@ -339,7 +348,8 @@ def modify_bottom_nav_bar(max_length, page, MAX):
         if page + 2 > div:
             page_nav = range(div - (MAX_PAGE - 1), div + 1)
         else:
-            page_nav = range(page - int(MAX_PAGE / 2), page + int(MAX_PAGE / 2) + 1)
+            page_nav = range(page - int(MAX_PAGE / 2),
+                             page + int(MAX_PAGE / 2) + 1)
 
     if page == 1:
         first = 0
@@ -371,7 +381,7 @@ def contact(request):
 
 
 def post(request, id):
-    post_data = get_post(id)
+    post_data = get_post(request, id)
     context = {"post": post_data}
     return render(request, "post.html", context)
 
@@ -384,7 +394,8 @@ def find_category(regex):
 
 
 def category(request, cat, page=1):
-    post = Category.objects.get(name=find_category(cat)).posts.all()
+    cat = find_category(cat)
+    post = Category.objects.get(name=cat).posts.all()
     max_length = len(post)
     data = []
     for i in range(MAX_POST_CATEGORY_PAGE):
@@ -397,9 +408,14 @@ def category(request, cat, page=1):
                     # "id": json.loads(json.dumps(post[index]._id, default=json_util.default))["$oid"],
                     "id": post[index].id,
                     "category": post[index].category,
-                    "title": post[index].title,
-                    "content": post[index].content,
+                    "title": truncate(post[index].title, 10)
+                    if request.LANGUAGE_CODE == "en"
+                    else truncate(post[index].title_vn, 10),
+                    "content": truncate(post[index].content, 30)
+                    if request.LANGUAGE_CODE == "en"
+                    else truncate(post[index].content_vn, 30),
                     "date": format_datetime(post[index].created_at),
+                    "thumbnail": post[index].thumbnail,
                 }
             )
         else:
@@ -408,10 +424,10 @@ def category(request, cat, page=1):
     nav_bar = modify_bottom_nav_bar(max_length, page, MAX_POST_CATEGORY_PAGE)
 
     context = {"data": data, "nav_bar": nav_bar, "page": page, "nav_tab": cat}
-    return render(request, f"{cat}.html", context)
+    return render(request, "category.html", context)
 
 
-def search_in_mongo(list_keywords):
+def search_in_mongo(request, list_keywords):
     client = pymongo.MongoClient()
     db = client["blog_data"]
     collection = db["blog_post"]
@@ -430,7 +446,7 @@ def search_in_mongo(list_keywords):
         for item in search_result:
             if item not in result_id:
                 result_id.append(item["id"])
-                result.append(get_post(item["id"]))
+                result.append(get_post(request, item["id"]))
 
     return keywords, result
 
@@ -439,7 +455,7 @@ def load_dictionary():
     f = open("blog\\static\\dictionary.txt", "r")
     temp = f.read()
     temp = temp.replace("'", '"')
-    temp = temp[temp.find("{") : -1]
+    temp = temp[temp.find("{"): -1]
     dictionary = json.loads(temp)
     f.close()
     return dictionary
@@ -453,16 +469,16 @@ def find_keyword_pos(regex, item):
     matches = re.finditer(regex, item, re.MULTILINE | re.IGNORECASE)
     result = []
     for matchNum, match in enumerate(matches, start=1):
-        result.append(item[match.start() : match.end()])
+        result.append(item[match.start(): match.end()])
 
     return result
 
 
 def search(request, page=1):
     raw_request = unquote(str(request))
-    raw_keywords = raw_request[raw_request.find("keyword") + 8 : -2]
+    raw_keywords = raw_request[raw_request.find("keyword") + 8: -2]
     list_raw_keywords = raw_keywords.split(" ")
-    keywords, search_result = search_in_mongo(list_raw_keywords)
+    keywords, search_result = search_in_mongo(request, list_raw_keywords)
     dictionary = load_dictionary()
     new_format = add_css_highlight_background
     data = []
@@ -472,16 +488,19 @@ def search(request, page=1):
             if keyword in dictionary:
                 for value in dictionary[keyword]:
                     for word in find_keyword_pos(value, item["title"]):
-                        item["title"] = item["title"].replace(word, new_format(word))
+                        item["title"] = item["title"].replace(
+                            word, new_format(word))
                     for word in find_keyword_pos(value, item["content"]):
                         item["content"] = item["content"].replace(
                             word, new_format(word)
                         )
             else:
                 for word in find_keyword_pos(keyword, item["title"]):
-                    item["title"] = item["title"].replace(word, new_format(word))
+                    item["title"] = item["title"].replace(
+                        word, new_format(word))
                 for word in find_keyword_pos(keyword, item["content"]):
-                    item["content"] = item["content"].replace(word, new_format(word))
+                    item["content"] = item["content"].replace(
+                        word, new_format(word))
     max_length = len(search_result)
 
     nav_bar = modify_bottom_nav_bar(max_length, page, MAX_SEARCH_RESULT)
@@ -512,3 +531,10 @@ def search(request, page=1):
         }
 
     return render(request, "search.html", context)
+
+
+def remove_html_tags(text):
+    """Remove html tags from a string"""
+    import re
+    clean = re.compile('<.*?>')
+    return re.sub(clean, '', text)

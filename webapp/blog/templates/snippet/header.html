@@ -1,6 +1,6 @@
 {% load static %}
 {% load i18n %}
-<nav class="navbar px-md-0 navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
+<nav class="navbar px-md-0 navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light {% if request.resolver_match.url_name == 'post' %}header-post{%endif%}" id="ftco-navbar">
     <div class="container">
         <a class="navbar-brand" href=" {% url 'home' %} ">Read<i>it</i>.</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
@@ -9,9 +9,9 @@
         <div class="collapse navbar-collapse" id="ftco-nav">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item {% if request.resolver_match.url_name == 'home' %} active {%endif%}"><a href=" {% url 'home' %} " class="nav-link">{% trans "Home" %}</a></li>
-                <li class="nav-item {% if nav_tab == 'technology' %} active {%endif%}"><a href=" {% url 'category' cat='technology' %} " class="nav-link">{% trans "Technology" %}</a></li>
-                <li class="nav-item {% if nav_tab == 'coding' %} active {%endif%}"><a href=" {% url 'category' cat='coding' %} " class="nav-link">{% trans "Coding" %}</a></li>
-                <li class="nav-item {% if nav_tab == 'inspiration' %} active {%endif%}"><a href=" {% url 'category' cat='inspiration' %} " class="nav-link">{% trans "Inspiration" %}</a></li>
+                <li class="nav-item {% if nav_tab == 'Technology' %} active {%endif%}"><a href=" {% url 'category' cat='technology' %} " class="nav-link">{% trans "Technology" %}</a></li>
+                <li class="nav-item {% if nav_tab == 'Coding' %} active {%endif%}"><a href=" {% url 'category' cat='coding' %} " class="nav-link">{% trans "Coding" %}</a></li>
+                <li class="nav-item {% if nav_tab == 'Inspiration' %} active {%endif%}"><a href=" {% url 'category' cat='inspiration' %} " class="nav-link">{% trans "Inspiration" %}</a></li>
                 <li class="nav-item {% if request.resolver_match.url_name == 'contact' %} active {%endif%}"><a href=" {% url 'contact' %} " class="nav-link">{% trans "Contact" %}</a></li>
                 <li style="display:flex; align-items:center; max-width: 12rem;">
                     <form action="{% url 'search' %}" class="search-form">
@@ -59,9 +59,9 @@
         <div class="row no-gutters slider-text js-fullheight align-items-center justify-content-center">
             <div class="col-md-9 ftco-animate pb-5 text-center">
                 <h1 class="mb-3 bread">{% trans nav_tab|title %}</h1>
-                <p class="breadcrumbs"><span class="mr-2"><a href=" {% url 'home' %} ">Home <i class="ion-ios-arrow-forward"></i></a></span> <span class="mr-2"><a href=" {% url 'home' %} ">Category <i class="ion-ios-arrow-forward"></i></a></span> <span>Category_Name <i class="ion-ios-arrow-forward"></i></span></p>
+                <p class="breadcrumbs"><span class="mr-2"><a href=" {% url 'home' %} ">Home <i class="ion-ios-arrow-forward"></i></a></span> <span class="mr-2"><a href=" {% url 'home' %} ">Category <i class="ion-ios-arrow-forward"></i></a></span> <span><a href="{% url 'category' cat=nav_tab%} " >{{nav_tab}}</a> <i class="ion-ios-arrow-forward"></i></span></p>
                 <div class="mouse" style="position:unset;">
-                    <a href="#all-data" class="mouse-icon">
+                    <a href="#blockContent" class="mouse-icon">
                         <div class="mouse-wheel"><span class="ion-ios-arrow-round-down"></span></div>
                     </a>
                 </div>
@@ -69,6 +69,7 @@
         </div>
     </div>
 </section>
+{% elif request.resolver_match.url_name == 'post' %}
 {% else %}
 <div class="hero-wrap js-fullheight" style="background-image: url(' {% static 'images/bg_1.jpg' %} ');" data-stellar-background-ratio="0.5">
     <div class="overlay"></div>
@@ -82,7 +83,7 @@
                         <div class="text">
                             <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
                             <div class="mouse">
-                                <a href="#" class="mouse-icon">
+                                <a href="#blockContent" class="mouse-icon">
                                     <div class="mouse-wheel"><span class="ion-ios-arrow-round-down"></span></div>
                                 </a>
                             </div>
