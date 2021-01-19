@@ -294,3 +294,132 @@ window.onload = function () {
     var ps = document.getElementsByClassName("content");
     for (p of ps) { p.innerHTML = p.textContent }
 }
+
+
+let content_editor
+function createPost() {
+    let category = document.getElementById("category").value
+    let title = document.getElementById("post-title").value
+    let content = content_editor.getData();
+    let thumbnail = thumbnail_editor.getData();
+    if (thumbnail) {
+        let re = /src=(\"|\')(.*)(\"|\')/g
+        thumbnail = re.exec(thumbnail)[2]
+    }
+
+    let dataString = '{ "category":"' + category + '",' +
+        '"title":"' + standardize_request(title) + '",' +
+        '"content":"' + standardize_request(content) + '",' +
+        '"thumbnail":"' + standardize_request(thumbnail) + '"' +
+        '}';
+
+    $.ajax({
+        type: "POST",
+        url: "/en/blog/admin/post/create/",
+        contentType: 'application/json',
+        data: dataString,
+        success: function (dataserver) {
+            console.log(dataserver)
+            section = document.getElementsByClassName("ftco-section")[0].innerHTML
+            section = '<div style="border: 1px;"><p>Post "'+ dataserver.title + '" is created. Click <a href=/en/blog/admin/post/update/'+ dataserver.id +'>here</a> to edit.</p></div>' + section;
+            document.getElementsByClassName("ftco-section")[0].innerHTML = section
+        }
+    });
+};
+
+InlineEditor
+    .create(document.querySelector('#content-editor'), {
+        toolbar: [ 'heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote', 'code', 'codeBlock', "imageInsert",],
+    heading: {
+        options: [
+            { model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph' },
+            { model: 'heading1', view: 'h1', title: 'Heading 1', class: 'ck-heading_heading1' },
+            { model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' }
+        ]
+    }
+    })
+    .then(newEditor => {
+        content_editor = newEditor;
+    })
+    .catch(error => {
+        console.error(error);
+    });
+
+InlineEditor
+    .create(document.querySelector('#thumbnail-editor'), {
+        toolbar: ["imageInsert"],
+    })
+    .then(newEditor => {
+        thumbnail_editor = newEditor;
+    })
+    .catch(error => {
+        console.error(error);
+    });
+
+
+function updatePost() {
+    let category = document.getElementById("category").value
+    let title = document.getElementById("post-title").value
+    let content = content_editor.getData();
+    let thumbnail = thumbnail_editor.getData();
+    if (thumbnail) {
+        let re = /src=(\"|\')(.*)(\"|\')/g
+        thumbnail = re.exec(thumbnail)[2]
+    }
+    let dataString = '{ "category":"' + category + '",' +
+        '"title":"' + standardize_request(title) + '",' +
+        '"content":"' + standardize_request(content) + '",' +
+        '"thumbnail":"' + standardize_request(thumbnail) + '"' +
+        '}';
+
+    let id = document.getElementById("post-id").innerHTML;
+    let url = "/en/blog/admin/post/update/" + id;
+
+    $.ajax({
+        type: "POST",
+        url: url,
+        contentType: 'application/json',
+        data: dataString,
+        success: function (dataserver) {
+            console.log(dataserver)
+            section = document.getElementsByClassName("ftco-section")[0].innerHTML
+            section = '<div style="border: 1px;"><p>Post is updated.</p>' + section;
+            document.getElementsByClassName("ftco-section")[0].innerHTML = section
+        }
+    });
+};
+
+$("#profile-form").submit(function(e) {
+    var username = document.getElementById("uname").value;
+    var first = document.getElementById("fname").value;
+    var last = document.getElementById("lname").value;
+    var email = document.getElementById("email").value;
+    var dataString =    '{ "username":"' + standardize_request(username) + '",' +
+                        '"first_name":"' + standardize_request(first) + '",' +
+                        '"last_name":"' + standardize_request(last) + '",' +
+                        '"email":"' + standardize_request(email) + '"}';
+
+    $.ajax({
+        type: "POST",
+        url: "/en/accounts/profile/",
+        contentType: 'application/json',
+        data: dataString,
+        success: function (dataserver, status, xhr) {
+            if (document.getElementById("notification")) {
+                document.getElementById("notification").remove()
+            }
+            if (dataserver.message) {
+                form = document.getElementById("profile-form").innerHTML
+                form = "<p id='notification' style='color:red;'>"+dataserver.message+"</p>" + form
+                document.getElementById("profile-form").innerHTML = form
+            }
+            else {
+                form = document.getElementById("profile-form").innerHTML
+                form = "<p id='notification' style='color:green;'>Update account successfully!</p>" + form
+                document.getElementById("profile-form").innerHTML = form
+            }
+        }
+    });
+
+    e.preventDefault();
+});

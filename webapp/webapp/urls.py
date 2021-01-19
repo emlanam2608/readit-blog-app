@@ -24,8 +24,11 @@ urlpatterns = [
 ]
 
 urlpatterns += i18n_patterns(
+    
     path('blog/', include('blog.urls')),
     path('accounts/signup/', views.signup, name="signup"),
     path('accounts/login/', views.login_user, name="login"),
+    path('accounts/logout/', views.logout_user, name="logout"),
+    path('accounts/profile/', views.profile, name="profile"),
     prefix_default_language=True
 )

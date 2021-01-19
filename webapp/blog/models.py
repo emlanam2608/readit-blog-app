@@ -1,6 +1,7 @@
 from djongo import models
 # from autoslug import AutoSlugField
 from django.utils.text import slugify
+from django.contrib.auth import get_user_model
 
 
 # Create your models here.
@@ -33,12 +34,14 @@ class Post(models.Model):
     id = models.AutoField(primary_key=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='posts')
     title = models.CharField(max_length=255)
-    title_vn = models.CharField(max_length=255)
+    # title_vn = models.CharField(max_length=255)
     content = models.TextField()
-    content_vn = models.TextField()
+    # content_vn = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     update_at = models.DateTimeField(auto_now=True)
     thumbnail = models.TextField(null=True)
+    author = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='posts', default=1)
+    author_username = models.CharField(max_length=100, default="admin")
     # publish = models.DateTimeField(auto_now=False, auto_now_add=False)
     objects = models.DjongoManager()
 
