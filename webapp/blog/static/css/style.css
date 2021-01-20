@@ -8235,7 +8235,7 @@ h1, h2, h3, h4, h5,
   position: relative; }
 
 .slider-text h1 {
-  font-size: 10rem;
+  font-size: 7rem;
   color: #fff;
   line-height: 1.2;
   font-weight: 700;
@@ -8478,10 +8478,10 @@ h1, h2, h3, h4, h5,
       color: #ffd369; }
 
 .case {
-  width: 100%;
-  margin-bottom: 50px; }
+  width: 88%;
+  margin: auto auto 50px auto; }
   .case .img {
-    height: 400px; }
+    height: 360px; }
   .case .text .subheading {
     font-weight: 500;
     font-size: 14px;
@@ -8490,7 +8490,7 @@ h1, h2, h3, h4, h5,
     color: rgba(0, 0, 0, 0.2);
     text-transform: uppercase; }
   .case .text h2 {
-    font-size: 40px;
+    font-size: 30px;
     font-weight: 700;
     margin-bottom: 20px; }
     .case .text h2 a {

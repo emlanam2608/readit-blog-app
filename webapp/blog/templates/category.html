@@ -2,8 +2,9 @@
 {% load static %}
 {% load i18n %}
 {% block content %}
-<section class="ftco-section bg-light">
+<section id="all-data" class="ftco-section bg-light">
     <div class="container">
+        <h1 id="all-data-wraper" style="overflow:hidden;text-align:center;margin-bottom:20px;">NEWEST BLOGS</h1>
         <div class="row d-flex">
             {% for post in data %}
                 <div class="col-md-4 d-flex ftco-animate">
