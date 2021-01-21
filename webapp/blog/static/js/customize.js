@@ -15,7 +15,7 @@ $(document).ready(function () {
             data: dataString,
             success: function (dataserver) {
                 var x = document.getElementById('commentList').innerHTML;
-                var comment = "<li class='comment root-comment'><p id='comment_id' hidden>" + dataserver.id + "</p><div class='vcard bio'><img src='/static/images/person_1.jpg' alt='Image placeholder'></div><div class='comment-body'><h3>" + dataserver.author + "</h3><div class='meta mb-3'>" + format_date(dataserver.created_at) + "</div><p>" + dataserver.content + "</p><a class='replycm'>Reply</a></div><ul class='children'></ul></li>";
+                var comment = "<li class='comment root-comment'><p id='comment_id' hidden>" + dataserver.id + "</p><div class='vcard bio'><img src='/static/images/person_1.jpg' alt='Image placeholder'></div><div class='comment-body'><h3>" + dataserver.author_username + "</h3><div class='meta mb-3'>" + format_date(dataserver.created_at) + "</div><p>" + dataserver.content + "</p><a class='replycm'>"+gettext("Reply")+"</a></div><ul class='children'></ul></li>";
                 x = comment + x;
                 document.getElementById("commentList").innerHTML = x;
                 $('#leaveCommentForm #message').val('');
@@ -75,15 +75,15 @@ function getNow() {
 $(document).ready(function () {
     
     $(document).on("click", "a.replycm", function () {
-        if(sessionStorage.getItem("loginStatus") == "loggedIn") {
+        if(username) {
             $("#replyCommentForm").remove();
             $(this).parent().append(
-                '<form id="replyCommentForm" style="margin-top: 15px;"><div class="form-group"><div class="row" style="margin-bottom: 10px;margin-left: 0;margin-right: 0;"><div class="col" style="padding: 0;"><input type="text" class="form-control" value="' + usr.innerHTML + '" readonly required></div></div><textarea type="text" class="form-control" id="formGroupExampleInput2" placeholder="Write here.." style="margin-bottom: 10px;" required></textarea><button type="button" class="btn btn-primary replycm">Comment</button><button class="btn btn-cancel">Cancel</button></div></form>'
+                '<form id="replyCommentForm" style="margin-top: 15px;"><div class="form-group"><div class="row" style="margin-bottom: 10px;margin-left: 0;margin-right: 0;"><div class="col" style="padding: 0;"><input type="text" class="form-control" value="' + username + '" readonly required></div></div><textarea type="text" class="form-control" id="formGroupExampleInput2" style="margin-bottom: 10px;" required></textarea><button type="button" class="btn btn-primary replycm">'+gettext("Comment")+'</button><button class="btn btn-cancel">'+gettext("Cancel")+'</button></div></form>'
             );
         } else {
             $("#loginReminder").remove()
             $(this).parent().append(
-                '<p id="loginReminder"><a href="'+ document.getElementById("login").getAttribute("href") +'">Login</a> to leave comments</p>'
+                '<p id="loginReminder"><a href="/en/accounts/login/">'+gettext("Login")+'</a> '+gettext("to leave comments")+'</p>'
             );
         }
     })
@@ -112,7 +112,7 @@ $(document).ready(function () {
             contentType: 'application/json',
             data: dataString,
             success: function (dataserver) {
-                var li = "<li class='comment'><p id='comment_id' hidden>" + dataserver.id + "</p><div class='vcard bio'><img src='/static/images/person_1.jpg' alt='Image placeholder'></div><div class='comment-body'><h3>" + replace_quotes(dataserver.author) + "</h3><div class='meta mb-3'>" + format_date(dataserver.created_at) + "</div><p>" + replace_quotes(dataserver.content) + "</p><a class='replycm'>Reply</a></div></li>";
+                var li = "<li class='comment'><p id='comment_id' hidden>" + dataserver.id + "</p><div class='vcard bio'><img src='/static/images/person_1.jpg' alt='Image placeholder'></div><div class='comment-body'><h3>" + replace_quotes(dataserver.author_username) + "</h3><div class='meta mb-3'>" + format_date(dataserver.created_at) + "</div><p>" + replace_quotes(dataserver.content) + "</p><a class='replycm'>"+ gettext("Reply")+"</a></div></li>";
                 root.find("ul.children").append(li);
 
                 $("#replyCommentForm").remove();
@@ -126,6 +126,14 @@ var data;
 const preload_comments = (id) => {
     $.ajax("/blog/load_comments/post=" + id, {
         success: function (dataserver, status, xhr) {
+            comments_count = dataserver.slice(-1)[0]
+            if (comments_count > 1) {
+                document.getElementById("comments_count").innerText = comments_count + " " + gettext("Comments")
+            }
+            else if (comments_count == 1) {
+                document.getElementById("comments_count").innerText = comments_count + " " + gettext("Comment")
+            }
+            dataserver.pop()
             data = dataserver.reverse();
             loadComment();
         }
@@ -202,13 +210,13 @@ var loadComment = () => {
 
 function render_group_comment(parent) {
     var li = "<li class='comment root-comment'>";
-    li += "<p id='comment_id'>" + parent.id + "</p><div class='vcard bio'><img src='/static/images/person_1.jpg' alt='Image placeholder'></div><div class='comment-body'><h3>" + replace_quotes(parent.author) + "</h3><div class='meta mb-3'>" + format_date(parent.created_at) + add_flag(parent.flag) + "</div><p>" + replace_quotes(parent.content) + "</p><a class='replycm'>Reply</a></div>"
+    li += "<p id='comment_id' hidden>" + parent.id + "</p><div class='vcard bio'></div><div class='comment-body'><h3>" + replace_quotes(parent.author_username) + "</h3><div class='meta mb-3'>" + format_date(parent.created_at) + add_flag(parent.flag) + "</div><p>" + replace_quotes(parent.content) + "</p><a class='replycm'>"+gettext("Reply")+"</a></div>"
     children = parent.children;
     if (children) {
         li += "<ul class='children'>";
         for (index in children) {
             child = children[index];
-            li += "<li class='comment'><p id='comment_id'>" + child.id + "</p><div class='vcard bio'><img src='/static/images/person_1.jpg' alt='Image placeholder'></div><div class='comment-body'><h3>" + replace_quotes(child.author) + "</h3><div class='meta mb-3'>" + format_date(parent.created_at) + "</div><p>" + replace_quotes(child.reply) + "</p><p>" + replace_quotes(child.content) + "</p><a class='replycm'>Reply</a></div></li>";
+            li += "<li class='comment'><p id='comment_id' hidden>" + child.id + "</p><div class='vcard bio'></div><div class='comment-body'><h3>" + replace_quotes(child.author_username) + "</h3><div class='meta mb-3'>" + format_date(parent.created_at) + "</div><p>" + replace_quotes(child.content) + "</p><a class='replycm'>"+gettext("Reply")+"</a></div></li>";
         }
         li += "</ul>";
     }
@@ -220,13 +228,17 @@ function render_group_comment(parent) {
 }
 
 function format_date(date) {
+    lang = gettext("en")
+    if (lang == "vi") {
+        console.log("yes")
+    }
     return date.month + ". " + date.day + ", " + date.year + ", " + date.hour + ":" + date.minute + " " + date["AM-PM"]
     // return Nov. 17, 2020, 2:47 p.m.
 }
 
 function add_flag(is_flagged) {
     if (is_flagged) {
-        return '<i style="position: relative; left:10px; color: red;" class="fas fa-flag"></i><span style="position: relative; left:15px;">WARNING</span>'
+        return '<i style="position: relative; left:10px; color: red;" class="fas fa-flag"></i><span style="position: relative; left:15px;">'+ gettext("WARNING")+'</span>'
     }
     else {
         return ""
@@ -242,51 +254,50 @@ function standardize_request(raw_string) {
     return raw_string.replaceAll('"', "'").replaceAll("\\", "\\\\")
 }
 
-var usr;
+var username;
 function is_logged_in() {
-    username = document.getElementById("username");
-    if(username) {
-        sessionStorage.setItem('loginStatus','loggedIn');
-    }
-    else {
-        sessionStorage.setItem('loginStatus','');
-    };
-    usr = username;
+    $.ajax({
+        type: "GET",
+        url: "/en/accounts/user/",
+        async: false,
+        success: function (dataserver) {
+            username = dataserver;
+        }
+    });
 }
 
 function init_comment_func() {
-    if(sessionStorage.getItem('loginStatus') == 'loggedIn') {
-        var html =  '<button class="btn" data-toggle="collapse" data-target="#leaveCommentForm" style="padding:0;" ><h3>Leave a comment</h3></button>' +
+    if(username) {
+        var html =  '<button class="btn" data-toggle="collapse" data-target="#leaveCommentForm" style="padding:0;" ><h3>'+gettext("Leave a comment")+'</h3></button>' +
                     '<form id="leaveCommentForm" class="p-5 bg-light collapse">' +
                         '<div class="form-group">' +
-                            '<label for="name">Name *</label>' +
-                            '<input type="text" class="form-control" id="name" value="' + usr.innerHTML + '" readonly required>' +
+                            '<label for="name">'+gettext("Name")+' *</label>' +
+                            '<input type="text" class="form-control" id="name" value="' + username + '" readonly required>' +
                         '</div>' +
                         '<div class="form-group">' +
-                            '<label for="message">Message *</label>' +
+                            '<label for="message">'+ gettext("Message")+' *</label>' +
                             '<textarea name="" id="message" cols="30" rows="10" class="form-control" required></textarea>' +
                         '</div>' +
                         '<div class="form-group">' +
-                            '<button type="button" class="btn py-3 px-4 btn-primary">Post Comment</button>' +
+                            '<button type="button" class="btn py-3 px-4 btn-primary">'+gettext("Post Comment")+'</button>' +
                         '</div>' +
                     '</form>'
 
         
     }
     else {
-        console.log("else")
-        var html = '<h3><a href="'+ document.getElementById("login").getAttribute("href") +'">Login</a> to leave comments</h3>'
+        var html = '<h3><a href="/en/accounts/login/">'+gettext("Login")+'</a> '+gettext("to leave comments")+'</h3>'
     };
     document.getElementById("commentContainer").innerHTML += html
 }
 
 
 $(document).ready(function () {
+    is_logged_in();
     var post_id = document.getElementById("post_id").innerText;
     document.getElementById("viewMoreComment").style.display = "none";
     preload_comments(post_id);
     load_recent_posts();
-    is_logged_in();
     init_comment_func();
 })
 
@@ -319,9 +330,11 @@ function createPost() {
         contentType: 'application/json',
         data: dataString,
         success: function (dataserver) {
-            console.log(dataserver)
+            if (document.getElementById("notification")) {
+                document.getElementById("notification").remove()
+            }
             section = document.getElementsByClassName("ftco-section")[0].innerHTML
-            section = '<div style="border: 1px;"><p>Post "'+ dataserver.title + '" is created. Click <a href=/en/blog/admin/post/update/'+ dataserver.id +'>here</a> to edit.</p></div>' + section;
+            section = '<div id="notification" style="border: 1px;"><p>Post "'+ dataserver.title + '" is created. Click <a href=/en/blog/admin/post/update/'+ dataserver.id +'>here</a> to edit.</p></div>' + section;
             document.getElementsByClassName("ftco-section")[0].innerHTML = section
         }
     });
@@ -381,9 +394,11 @@ function updatePost() {
         contentType: 'application/json',
         data: dataString,
         success: function (dataserver) {
-            console.log(dataserver)
+            if (document.getElementById("notification")) {
+                document.getElementById("notification").remove()
+            }
             section = document.getElementsByClassName("ftco-section")[0].innerHTML
-            section = '<div style="border: 1px;"><p>Post is updated.</p>' + section;
+            section = '<div id="notification" style="border: 1px;"><p>Post is updated.</p>' + section;
             document.getElementsByClassName("ftco-section")[0].innerHTML = section
         }
     });

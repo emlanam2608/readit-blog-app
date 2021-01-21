@@ -53,33 +53,13 @@ class Comment(models.Model):
     id = models.AutoField(primary_key=True)
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments')
     parent = models.ForeignKey('self', on_delete=models.CASCADE, blank=True, related_name='children', null=True)
-    reply = models.CharField(max_length=100, editable=False)
-    author = models.CharField(max_length=50)
+    reply_to = models.CharField(max_length=100, editable=False)
+    author_username = models.CharField(max_length=100, default="admin")
+    author = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='comments', default=1)
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     hidden = models.BooleanField(default=False)
     flag = models.BooleanField(default=False)
 
-    group = models.SlugField(
-        default='',
-        editable=False,
-    )
-
-    def save(self, *args, **kwargs):
-        if self.parent:
-            if self.parent.group != "0":
-                value = self.parent.group
-            else:
-                value = self.parent.id
-        else:
-            value = 0
-        self.group = slugify(value, allow_unicode=True)
-
-        if self.parent:
-            self.reply = f'Reply @{self.parent.author}'
-        else:
-            self.reply = ""
-        super().save(*args, **kwargs)
-
     def __str__(self):
-        return f'Post:{self.post}/Group:{self.group}/Author:{self.author}'
+        return f'Post:{self.post}/Author:{self.author}'

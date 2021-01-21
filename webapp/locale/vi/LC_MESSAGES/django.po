@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-12-06 04:41+0700\n"
+"POT-Creation-Date: 2021-01-22 04:21+0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,37 +18,47 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: .\blog\templates\snippet\footer.html:22
+#: .\blog\templates\category.html:7 .\blog\templates\home.html:8
+msgid "NEWEST BLOGS"
+msgstr "BÀI VIẾT MỚI"
+
+#: .\blog\templates\category.html:26 .\blog\templates\coding.html:26
+#: .\blog\templates\inspiration.html:26 .\blog\templates\technology.html:26
+msgid "Read more"
+msgstr "Đọc thêm"
+
+#: .\blog\templates\snippet\footer.html:19
 #: .\blog\templates\snippet\header.html:7
 msgid "Menu"
 msgstr "Danh mục"
 
-#: .\blog\templates\snippet\footer.html:24
+#: .\blog\templates\snippet\footer.html:21
 #: .\blog\templates\snippet\header.html:11
+#: .\blog\templates\snippet\header.html:63
 msgid "Home"
 msgstr "Trang chủ"
+
+#: .\blog\templates\snippet\footer.html:22
+#: .\blog\templates\snippet\header.html:12
+msgid "Technology"
+msgstr "Công nghệ"
 
 #: .\blog\templates\snippet\footer.html:23
 #: .\blog\templates\snippet\header.html:13
 msgid "Coding"
 msgstr "Lập trình"
 
-#: .\blog\templates\snippet\footer.html:26
-#: .\blog\templates\snippet\header.html:12
-msgid "Technology"
-msgstr "Công nghệ"
-
 #: .\blog\templates\snippet\footer.html:24
 #: .\blog\templates\snippet\header.html:14
 msgid "Inspiration"
-msgstr "Nguồn cảm hứng"
+msgstr "Cảm hứng"
 
-#: .\blog\templates\snippet\footer.html:28
+#: .\blog\templates\snippet\footer.html:25
 #: .\blog\templates\snippet\header.html:15
 msgid "Contact"
 msgstr "Liên hệ"
 
-#: .\blog\templates\snippet\footer.html:34
+#: .\blog\templates\snippet\footer.html:31
 msgid "Wanna write your blog?"
 msgstr "Blog của riêng mình?"
 
@@ -56,31 +66,35 @@ msgstr "Blog của riêng mình?"
 msgid "Search"
 msgstr "Tìm kiếm"
 
-#: .\blog\templates\snippet\header.html:27
+#: .\blog\templates\snippet\header.html:26
 msgid "Welcome"
 msgstr "Xin chào"
 
-#: .\blog\templates\snippet\header.html:28
+#: .\blog\templates\snippet\header.html:27
 msgid "Logout"
 msgstr "Đăng xuất"
 
-#: .\blog\templates\snippet\header.html:32
+#: .\blog\templates\snippet\header.html:29
 msgid "Login"
 msgstr "Đăng nhập"
 
-#: .\blog\templates\snippet\header.html:33
+#: .\blog\templates\snippet\header.html:30
 msgid "Sign up"
 msgstr "Đăng kí"
 
-#: .\blog\templates\snippet\header.html:78
+#: .\blog\templates\snippet\header.html:63
+msgid "Category"
+msgstr "Danh mục"
+
+#: .\blog\templates\snippet\header.html:80
 msgid "Hello! Welcome to"
 msgstr "Chào mừng đến với"
 
-msgid "technology"
-msgstr "Công nghệ"
+#~ msgid "technology"
+#~ msgstr "Công nghệ"
 
-msgid "inspiration"
-msgstr "Nguồn cảm hứng"
+#~ msgid "inspiration"
+#~ msgstr "Nguồn cảm hứng"
 
-msgid "coding"
-msgstr "Lập trình"
+#~ msgid "coding"
+#~ msgstr "Lập trình"

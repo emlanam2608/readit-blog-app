@@ -231,6 +231,9 @@ def logout_user(request):
     return HttpResponseRedirect(redirect_to)
 
 
+def get_user_session(request):
+    return HttpResponse(get_user(request).username)
+
 def format_datetime(datetime):
     date = {}
     date["day"] = datetime.strftime("%d")
@@ -249,27 +252,30 @@ def load_comments(request, id):
     children = {}
     comments = []
     query_comments = post.comments.all().order_by("created_at").values()
-
+    comments_count = len(query_comments)
+    
     for comment in query_comments:
         if comment["hidden"]:
             continue
         comment["created_at"] = format_datetime(comment["created_at"])
         comments.append(comment)
+        print(comment["parent_id"])
 
     for comment in comments:
-        if comment["group"] == "0":
+        if not comment["parent_id"]:
             parents.append(comment)
         else:
-            if comment["group"] in children.keys():
-                children[comment["group"]].append(comment)
+            if str(comment["parent_id"]) in children.keys():
+                children[str(comment["parent_id"])].append(comment)
             else:
-                children[comment["group"]] = [comment]
+                children[str(comment["parent_id"])] = [comment]
+    print(children)
 
     for parent in parents:
         group = str(parent["id"])
         if group in children.keys():
             parent["children"] = children[group]
-
+    parents.append(comments_count)
     return HttpResponse(json.dumps(parents), content_type="application/json")
 
 
@@ -281,19 +287,21 @@ def post_comment(request):
             print(request.body)
             received_json_data = json.loads(request.body)
             # category = received_json_data['category']
-            author = received_json_data["author"]
+            # author_username = received_json_data["author"]
             content = received_json_data["content"]
             post_id = received_json_data["post_id"]
+            author = get_user(request)
+            author_username = author.username
 
             if "parent_id" in received_json_data:
                 print("yes")
                 parent_id = received_json_data["parent_id"]
                 comment = Comment(
-                    post_id=post_id, author=author, content=content, parent_id=parent_id
+                    post_id=post_id, author=author, content=content, parent_id=parent_id, author_username=author_username
                 )
             else:
                 comment = Comment(
-                    post_id=post_id, author=author, content=content)
+                    post_id=post_id, author=author, content=content, author_username=author_username)
 
             comment.save()
 
@@ -370,31 +378,31 @@ def get_recent_posts(request, page=1):
 def get_post(request, id):
     # post = Post.objects.get(_id=ObjectId(id))
     post = get_object_or_404(Post, id=int(id))
-    parents = []
-    children = {}
-    comments = post.comments.all().order_by("created_at").values()
-    comments_count = len(comments)
-    for comment in comments:
-        if comment["group"] == "0":
-            parents.append(comment)
-        else:
-            if comment["group"] in children.keys():
-                children[comment["group"]].append(comment)
-            else:
-                children[comment["group"]] = [comment]
+    # parents = []
+    # children = {}
+    # comments = post.comments.all().order_by("created_at").values()
+    # comments_count = len(comments)
+    # for comment in comments:
+    #     if comment["group"] == "0":
+    #         parents.append(comment)
+    #     else:
+    #         if comment["group"] in children.keys():
+    #             children[comment["group"]].append(comment)
+    #         else:
+    #             children[comment["group"]] = [comment]
 
-    for parent in parents:
-        group = str(parent["id"])
-        if group in children.keys():
-            parent["children"] = children[group]
+    # for parent in parents:
+    #     group = str(parent["id"])
+    #     if group in children.keys():
+    #         parent["children"] = children[group]
 
     data = {
         "id": post.id,
         "category": post.category,
         "title": post.title,
         "content": post.content,
-        "comments": parents,
-        "comments_count": comments_count,
+        # "comments": parents,
+        # "comments_count": comments_count,
         "date": post.created_at,
         "thumbnail": post.thumbnail,
     }

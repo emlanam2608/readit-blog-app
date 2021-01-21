@@ -1,5 +1,6 @@
 {% load static %}
 {% load i18n %}
+{% load statici18n %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -51,6 +52,8 @@
     <!-- <script src=" {% static 'js/google-map.js' %} "></script> -->
     <script src=" {% static 'js/main.js' %} "></script>
     <script src=" {% static 'js/customize.js' %}?{% now 'U' %} "></script>
+    <script src="{% url 'javascript-catalog' %}"></script>
+    <script src="{% statici18n LANGUAGE_CODE %}?{% now 'U' %}"></script>
 </body>
 
 </html>

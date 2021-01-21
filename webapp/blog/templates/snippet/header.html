@@ -33,7 +33,7 @@
                 <li>
                     <div style="position: absolute; right: 20px; top: 20px; border-style: none;">
                         <form action="{% url 'set_language' %}" method="POST">{% csrf_token %}
-                            <input type="hidden" name="next" value="{{ redirect_to }}">
+                            <input type="hidden" name="next" value="{{ request.get_full_path|slice:'3:' }}"">
                             <select name="language" onchange="this.form.submit()">
                                 {% get_available_languages as LANGUAGES %}
                                 {% get_language_info_list for LANGUAGES as languages %}
@@ -59,7 +59,7 @@
         <div class="row no-gutters slider-text js-fullheight align-items-center justify-content-center">
             <div class="col-md-9 ftco-animate pb-5 text-center">
                 <h1 class="mb-3 bread">{% trans nav_tab|title %}</h1>
-                <p class="breadcrumbs"><span class="mr-2"><a href=" {% url 'home' %} ">Home <i class="ion-ios-arrow-forward"></i></a></span> <span class="mr-2"><a href=" {% url 'home' %} ">Category <i class="ion-ios-arrow-forward"></i></a></span> <span><a href="{% url 'category' cat=nav_tab%} " >{{nav_tab}}</a> <i class="ion-ios-arrow-forward"></i></span></p>
+                <p class="breadcrumbs"><span class="mr-2"><a href=" {% url 'home' %} ">{% trans 'Home' %}<i class="ion-ios-arrow-forward"></i></a></span> <span class="mr-2"><a href=" {% url 'home' %} ">{% trans "Category" %} <i class="ion-ios-arrow-forward"></i></a></span> <span><a href="{% url 'category' cat=nav_tab%} " >{% trans nav_tab %}</a> <i class="ion-ios-arrow-forward"></i></span></p>
                 <div class="mouse" style="position:unset;">
                     <a href="#all-data" class="mouse-icon">
                         <div class="mouse-wheel"><span class="ion-ios-arrow-round-down"></span></div>
@@ -81,7 +81,6 @@
                 <div class="row">
                     <div class="col-md-7">
                         <div class="text">
-                            <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
                             <div class="mouse">
                                 <a href="#all-data" class="mouse-icon">
                                     <div class="mouse-wheel"><span class="ion-ios-arrow-round-down"></span></div>

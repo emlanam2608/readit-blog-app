@@ -17,6 +17,7 @@ from django.contrib import admin
 from django.urls import path, include
 from blog import views
 from django.conf.urls.i18n import i18n_patterns
+from django.views.i18n import JavaScriptCatalog
 
 urlpatterns = [
     path('i18n/', include('django.conf.urls.i18n')),
@@ -30,5 +31,7 @@ urlpatterns += i18n_patterns(
     path('accounts/login/', views.login_user, name="login"),
     path('accounts/logout/', views.logout_user, name="logout"),
     path('accounts/profile/', views.profile, name="profile"),
+    path('accounts/user/', views.get_user_session, name="get_user_session"),
+    path('jsi18n/', JavaScriptCatalog.as_view(), name='javascript-catalog'),
     prefix_default_language=True
 )

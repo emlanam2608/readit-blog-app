@@ -21,4 +21,4 @@ class CategoryAdmin(admin.ModelAdmin):
 
 @admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):
-    list_display = ["post", "group", "author", "content", "created_at"]
+    list_display = ["post", "author", "content", "created_at"]

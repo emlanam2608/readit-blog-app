@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-12-07 11:47+0700\n"
+"POT-Creation-Date: 2021-01-22 04:37+0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,39 +18,53 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: .\blog\static\js\customize.js:81
-msgid "Write here..."
-msgstr "Nội dung..."
-
-#: .\blog\static\js\customize.js:81 .\blog\static\js\customize.js:115
-#: .\blog\static\js\customize.js:199 .\blog\static\js\customize.js:205
+#: .\blog\static\js\customize.js:18 .\blog\static\js\customize.js:115
+#: .\blog\static\js\customize.js:213 .\blog\static\js\customize.js:219
 msgid "Reply"
 msgstr "Trả lời"
+
+#: .\blog\static\js\customize.js:81 .\blog\static\js\customize.js:134
+msgid "Comment"
+msgstr "Bình luận"
 
 #: .\blog\static\js\customize.js:81
 msgid "Cancel"
 msgstr "Hủy"
 
-#: .\blog\static\js\customize.js:86 .\blog\static\js\customize.js:272
+#: .\blog\static\js\customize.js:86 .\blog\static\js\customize.js:289
 msgid "Login"
 msgstr "Đăng nhập"
 
-#: .\blog\static\js\customize.js:86 .\blog\static\js\customize.js:272
+#: .\blog\static\js\customize.js:86 .\blog\static\js\customize.js:289
 msgid "to leave comments"
 msgstr "để bình luận"
 
-#: .\blog\static\js\customize.js:253
+#: .\blog\static\js\customize.js:131
+msgid "Comments"
+msgstr "Bình luận"
+
+#: .\blog\static\js\customize.js:231
+msgid "en"
+msgstr "vi"
+
+#: .\blog\static\js\customize.js:241
+msgid "WARNING"
+msgstr "CẢNH BÁO"
+
+#: .\blog\static\js\customize.js:271
 msgid "Leave a comment"
 msgstr "Bình luận"
 
-#: .\blog\static\js\customize.js:256
+#: .\blog\static\js\customize.js:274
 msgid "Name"
 msgstr "Tên"
 
-#: .\blog\static\js\customize.js:260
+#: .\blog\static\js\customize.js:278
 msgid "Message"
 msgstr "Nội dung"
 
-#: .\blog\static\js\customize.js:264
-msgid "Comment"
+#: .\blog\static\js\customize.js:282
+#, fuzzy
+#| msgid "Comment"
+msgid "Post Comment"
 msgstr "Bình luận"
