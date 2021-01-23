@@ -1,6 +1,6 @@
 {% load static %}
 {% load i18n %}
-<nav class="navbar px-md-0 navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light {% if request.resolver_match.url_name == 'post' %}header-post{%endif%}" id="ftco-navbar">
+<nav class="navbar px-md-0 navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light {% if request.resolver_match.url_name == 'post' or 'signup' or 'login' %}header-post{%endif%}" id="ftco-navbar">
     <div class="container">
         <a class="navbar-brand" href=" {% url 'home' %} ">Read<i>it</i>.</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
@@ -33,7 +33,7 @@
                 <li>
                     <div style="position: absolute; right: 20px; top: 20px; border-style: none;">
                         <form action="{% url 'set_language' %}" method="POST">{% csrf_token %}
-                            <input type="hidden" name="next" value="{{ request.get_full_path|slice:'3:' }}"">
+                            <input type="hidden" name="next" value="{{ request.get_full_path|slice:'3:' }}">
                             <select name="language" onchange="this.form.submit()">
                                 {% get_available_languages as LANGUAGES %}
                                 {% get_language_info_list for LANGUAGES as languages %}
@@ -69,7 +69,7 @@
         </div>
     </div>
 </section>
-{% elif request.resolver_match.url_name == 'post' %}
+{% elif request.resolver_match.url_name == 'post' or 'signup' or 'login' %}
 {% else %}
 <div class="hero-wrap js-fullheight" style="background-image: url(' {% static 'images/bg_1.jpg' %} ');" data-stellar-background-ratio="0.5">
     <div class="overlay"></div>

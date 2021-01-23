@@ -1,22 +1,77 @@
 {% extends "base.html" %}
 {% load static %}
 {% block content %}
-<h2>Sign up</h2>
-  <form method="post">
-    {% csrf_token %}
-    {% for field in form %}
-      <p>
-        {{ field.label_tag }}<br>
-        {{ field }}
-        {% if field.help_text %}
-          <small style="color: grey">{{ field.help_text }}</small>
-        {% endif %}
-        {% for error in field.errors %}
-          <p style="color: red">{{ error }}</p>
-        {% endfor %}
-      </p>
-    {% endfor %}
-    <input type="hidden" value="{% if request.REQUEST.next %}{{ request.REQUEST.next }}{% else %}{% if request.META.HTTP_REFERER %}{{ request.META.HTTP_REFERER }}{% else %}/{% endif %}{% endif %}" name="next" />
-    <button type="submit">Sign up</button>
-  </form>
+<div class="background" style='background-image: url("https://res.cloudinary.com/nmnhat/image/upload/v1611368276/photo-1487081968683-2a6664e725ce_rh4xyn.jpg"); background-repeat: no-repeat; background-position: center;'>
+  <div class="signup-form">
+    <form method="post">
+      <h2>Register</h2>
+      <p class="hint-text">Create your account. It's free and only takes a minute.</p>
+      <div class="form-group" style="margin-bottom: 20px;">
+        <div class="row">
+          <div class="col"></div>
+          <div class="col"></div>
+        </div>
+      </div>
+      {% csrf_token %}
+      {% for field in form %}
+      <div class="form-group" style="margin-bottom: 20px;">
+          {{ field }}
+          {% if field.name == 'password1' %}
+            <small style="color: grey; margin-top: 1rem;">{{ field.help_text }}</small>
+          {% endif %}
+          {% for error in field.errors %}
+            <p style="color: red">{{ error }}</p>
+          {% endfor %}
+      </div>
+      {% endfor %}
+      <input type="hidden" value="{% if request.REQUEST.next %}{{ request.REQUEST.next }}{% else %}{% if request.META.HTTP_REFERER %}{{ request.META.HTTP_REFERER }}{% else %}/{% endif %}{% endif %}" name="next" />
+      <div class="form-group">
+        <button type="submit" class="btn btn-success btn-lg btn-block">Register Now</button>
+      </div>
+      <div class="text-center">Already have an account? <a href="#">Sign in</a></div>
+    </form>
+  </div>
+</div>
+<script type="text/javascript">
+  let arr = ['username','first_name','last_name','email','password1','password2'];
+  let placeHolder = ['Enter your username','First name','Last name','Enter your email','Enter your password','Confirm your password'];
+  let firstName = document.querySelector("body > div.background > div.signup-form > form > div:nth-child(3) > div > div:nth-child(1)");
+  let lastName = document.querySelector("body > div.background > div.signup-form > form > div:nth-child(3) > div > div:nth-child(2)");
+  document.querySelector("#ftco-navbar").style.position = 'inherit'
+  for(let i in arr){
+
+    let element = document.querySelector(`input[name=${arr[i]}]`);
+    element.setAttribute("placeholder",`${placeHolder[i]}`);
+    element.setAttribute("class", "form-control");
+
+    if (/password1/g.test(arr[i])){
+      document.getElementsByTagName('small')[0].style.display = "none";
+      element.setAttribute("onfocus", "func1()");
+      element.setAttribute("onfocusout", "func2()");
+    }
+
+    else if (/first_name/g.test(arr[i])){
+      let dom = document.querySelector("#id_first_name");
+      dom.remove();
+      firstName.appendChild(dom);
+    }
+
+    else if (/last_name/g.test(arr[i])){
+      let dom = document.querySelector("#id_last_name");
+      console.log('1');
+      dom.remove();
+      lastName.appendChild(dom);
+    }
+
+  }
+
+  function func1(){
+    document.getElementsByTagName('small')[0].style.display = "block";
+  }
+
+  function func2(){
+    document.getElementsByTagName('small')[0].style.display = "none";
+  }
+
+</script>
 {% endblock %}
