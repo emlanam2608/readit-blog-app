@@ -61,5 +61,17 @@ class Comment(models.Model):
     hidden = models.BooleanField(default=False)
     flag = models.BooleanField(default=False)
 
+    level = models.SlugField(
+        default='0',
+        editable=False,
+    )
+    def save(self, *args, **kwargs):
+        if self.parent:
+            value = int(self.parent.level) + 1
+        else:
+            value = 0
+        self.level = slugify(value, allow_unicode=True)
+        super().save(*args, **kwargs)
+
     def __str__(self):
         return f'Post:{self.post}/Author:{self.author}'

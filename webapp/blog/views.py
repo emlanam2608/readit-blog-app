@@ -248,8 +248,8 @@ def format_datetime(datetime):
 
 def load_comments(request, id):
     post = get_object_or_404(Post, id=int(id))
-    parents = []
-    children = {}
+    # parents = []
+    # children = {}
     comments = []
     query_comments = post.comments.all().order_by("created_at").values()
     comments_count = len(query_comments)
@@ -259,24 +259,52 @@ def load_comments(request, id):
             continue
         comment["created_at"] = format_datetime(comment["created_at"])
         comments.append(comment)
-        print(comment["parent_id"])
 
-    for comment in comments:
-        if not comment["parent_id"]:
-            parents.append(comment)
-        else:
-            if str(comment["parent_id"]) in children.keys():
-                children[str(comment["parent_id"])].append(comment)
+    print(comments)
+    level_array = []
+    x = 0
+    y = 1
+    while x < y:
+        level_array.append([comment for comment in query_comments if comment["level"]==str(x)])
+        query_comments = [ comment for comment in query_comments if comment not in level_array[x]]
+        x += 1
+        if query_comments:
+            y += 1
+
+    for i in range(len(level_array)-1):
+        temp = {}
+        for c in level_array[-1]:
+            if str(c["parent_id"]) in temp:
+                temp[str(c["parent_id"])].append(c)
             else:
-                children[str(comment["parent_id"])] = [comment]
-    print(children)
+                temp[str(c["parent_id"])] = [c]
+        print(temp)
+        for c in level_array[-2]:
+            if str(c["id"]) in temp:
+                c['children'] = [ item for item in temp[str(c["id"])]]
 
-    for parent in parents:
-        group = str(parent["id"])
-        if group in children.keys():
-            parent["children"] = children[group]
-    parents.append(comments_count)
-    return HttpResponse(json.dumps(parents), content_type="application/json")
+        level_array.pop()
+
+    level_array = [ i for j in level_array for i in j]
+    print(level_array)
+
+    # for comment in comments:
+    #     if not comment["parent_id"]:
+    #         parents.append(comment)
+    #     else:
+    #         if str(comment["parent_id"]) in children.keys():
+    #             children[str(comment["parent_id"])].append(comment)
+    #         else:
+    #             children[str(comment["parent_id"])] = [comment]
+    # print(children)
+
+    # for parent in parents:
+    #     group = str(parent["id"])
+    #     if group in children.keys():
+    #         parent["children"] = children[group]
+    # parents.append(comments_count)
+    level_array.append(comments_count)
+    return HttpResponse(json.dumps(level_array), content_type="application/json")
 
 
 @login_required

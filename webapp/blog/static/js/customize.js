@@ -15,7 +15,7 @@ $(document).ready(function () {
             data: dataString,
             success: function (dataserver) {
                 var x = document.getElementById('commentList').innerHTML;
-                var comment = "<li class='comment root-comment'><p id='comment_id' hidden>" + dataserver.id + "</p><div class='vcard bio'><img src='/static/images/person_1.jpg' alt='Image placeholder'></div><div class='comment-body'><h3>" + dataserver.author_username + "</h3><div class='meta mb-3'>" + format_date(dataserver.created_at) + "</div><p>" + dataserver.content + "</p><a class='replycm'>"+gettext("Reply")+"</a></div><ul class='children'></ul></li>";
+                var comment = "<li class='comment root-comment c-level-0'><p id='comment_id' hidden>" + dataserver.id + "</p><div class='vcard bio'><img src='/static/images/person_1.jpg' alt='Image placeholder'></div><div class='comment-body'><h3>" + dataserver.author_username + "</h3><div class='meta mb-3'>" + format_date(dataserver.created_at) + "</div><p>" + dataserver.content + "</p><a class='replycm'>"+gettext("Reply")+"</a></div><ul class='children'></ul></li>";
                 x = comment + x;
                 document.getElementById("commentList").innerHTML = x;
                 $('#leaveCommentForm #message').val('');
@@ -104,16 +104,29 @@ $(document).ready(function () {
             '"parent_id":"' + standardize_request(parent_id) + '"' +
             '}';
 
-        root = $(this).closest(".root-comment")
-
+        root = $(this).closest("li.comment")
+        console.log(root.hasClass("final-level"))
         $.ajax({
             type: "POST",
             url: "/en/blog/post_comment",
             contentType: 'application/json',
             data: dataString,
             success: function (dataserver) {
-                var li = "<li class='comment'><p id='comment_id' hidden>" + dataserver.id + "</p><div class='vcard bio'><img src='/static/images/person_1.jpg' alt='Image placeholder'></div><div class='comment-body'><h3>" + replace_quotes(dataserver.author_username) + "</h3><div class='meta mb-3'>" + format_date(dataserver.created_at) + "</div><p>" + replace_quotes(dataserver.content) + "</p><a class='replycm'>"+ gettext("Reply")+"</a></div></li>";
-                root.find("ul.children").append(li);
+                if (root.hasClass("c-level-2")) {
+                    console.log("2")
+                    var li = "<br><li class='comment c-level-2'><p id='comment_id' hidden>" + dataserver.id + "</p><div class='vcard bio'><img src='/static/images/person_1.jpg' alt='Image placeholder'></div><div class='comment-body'><h3>" + replace_quotes(dataserver.author_username) + "</h3><div class='meta mb-3'>" + format_date(dataserver.created_at) + "</div><p>" + replace_quotes(dataserver.content) + "</p><a class='replycm'>"+ gettext("Reply")+"</a></div></li>";
+                    root.append(li);
+                }
+                else if (root.hasClass("c-level-1")) {
+                    console.log("1")
+                    var li = "<li class='comment c-level-2'><p id='comment_id' hidden>" + dataserver.id + "</p><div class='vcard bio'><img src='/static/images/person_1.jpg' alt='Image placeholder'></div><div class='comment-body'><h3>" + replace_quotes(dataserver.author_username) + "</h3><div class='meta mb-3'>" + format_date(dataserver.created_at) + "</div><p>" + replace_quotes(dataserver.content) + "</p><a class='replycm'>"+ gettext("Reply")+"</a></div><ul class='children'></ul></li>";
+                    root.find("ul.children").append(li);
+                }
+                else if (root.hasClass("c-level-0")) {
+                    console.log("0")
+                    var li = "<li class='comment c-level-1'><p id='comment_id' hidden>" + dataserver.id + "</p><div class='vcard bio'><img src='/static/images/person_1.jpg' alt='Image placeholder'></div><div class='comment-body'><h3>" + replace_quotes(dataserver.author_username) + "</h3><div class='meta mb-3'>" + format_date(dataserver.created_at) + "</div><p>" + replace_quotes(dataserver.content) + "</p><a class='replycm'>"+ gettext("Reply")+"</a></div><ul class='children'></ul></li>";
+                    root.find("ul.children").append(li);
+                }
 
                 $("#replyCommentForm").remove();
             }
@@ -209,14 +222,27 @@ var loadComment = () => {
 }
 
 function render_group_comment(parent) {
-    var li = "<li class='comment root-comment'>";
+    var li = "<li class='comment root-comment c-level-0'>";
     li += "<p id='comment_id' hidden>" + parent.id + "</p><div class='vcard bio'></div><div class='comment-body'><h3>" + replace_quotes(parent.author_username) + "</h3><div class='meta mb-3'>" + format_date(parent.created_at) + add_flag(parent.flag) + "</div><p>" + replace_quotes(parent.content) + "</p><a class='replycm'>"+gettext("Reply")+"</a></div>"
-    children = parent.children;
+    var children = parent.children;
     if (children) {
         li += "<ul class='children'>";
         for (index in children) {
-            child = children[index];
-            li += "<li class='comment'><p id='comment_id' hidden>" + child.id + "</p><div class='vcard bio'></div><div class='comment-body'><h3>" + replace_quotes(child.author_username) + "</h3><div class='meta mb-3'>" + format_date(parent.created_at) + "</div><p>" + replace_quotes(child.content) + "</p><a class='replycm'>"+gettext("Reply")+"</a></div></li>";
+            var child = children[index];
+            li += "<li class='comment c-level-1'><p id='comment_id' hidden>" + child.id + "</p><div class='vcard bio'></div><div class='comment-body'><h3>" + replace_quotes(child.author_username) + "</h3><div class='meta mb-3'>" + format_date(child.created_at) + "</div><p>" + replace_quotes(child.content) + "</p><a class='replycm'>"+gettext("Reply")+"</a></div></li>";
+
+            var children2 = child.children;
+            if (children2) {
+                li += "<ul class='children'>";
+                for (index2 in children2) {
+                    var child2 = children2[index2];
+                    li += "<li class='comment c-level-2'><p id='comment_id' hidden>" + child2.id + "</p><div class='vcard bio'></div><div class='comment-body'><h3>" + replace_quotes(child2.author_username) + "</h3><div class='meta mb-3'>" + format_date(child2.created_at) + "</div><p>" + replace_quotes(child2.content) + "</p><a class='replycm'>"+gettext("Reply")+"</a></div></li>";
+                }
+                li += "</ul>";
+            }
+            else {
+                li += "<ul class='children'></ul>"
+            }
         }
         li += "</ul>";
     }
@@ -228,10 +254,10 @@ function render_group_comment(parent) {
 }
 
 function format_date(date) {
-    lang = gettext("en")
-    if (lang == "vi") {
-        console.log("yes")
-    }
+    // lang = gettext("en")
+    // if (lang == "vi") {
+    //     console.log("yes")
+    // }
     return date.month + ". " + date.day + ", " + date.year + ", " + date.hour + ":" + date.minute + " " + date["AM-PM"]
     // return Nov. 17, 2020, 2:47 p.m.
 }
