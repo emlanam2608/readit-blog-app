@@ -69,7 +69,7 @@
         </div>
     </div>
 </section>
-{% elif request.resolver_match.url_name == 'post' or 'signup' or 'login' %}
+{% elif request.resolver_match.url_name == 'post' or request.resolver_match.url_name == 'signup' or request.resolver_match.url_name == 'login' %}
 {% else %}
 <div class="hero-wrap js-fullheight" style="background-image: url(' {% static 'images/bg_1.jpg' %} ');" data-stellar-background-ratio="0.5">
     <div class="overlay"></div>

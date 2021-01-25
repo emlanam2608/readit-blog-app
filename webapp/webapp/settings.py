@@ -26,7 +26,7 @@ SECRET_KEY = '!h4-dy6rwh%$(whpf4tm%j(95_-qx4eol3=^$kyhqx-rhf__tg'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["readit-blog-app.herokuapp.com", "192.168.1.10"]
+ALLOWED_HOSTS = ["readit-blog-app.herokuapp.com", "192.168.1.10", "127.0.0.1"]
 
 
 
