@@ -15,7 +15,7 @@ urlpatterns = [
     # path('accounts/signup/', views.signup, name="signup"),
     # path('accounts/login/', views.login_user, name="login"),
     # path('logout/', views.logout_user, name="logout"),
-    path('admin/', views.admin, name="admin"),
-    path('admin/post/create/', views.create_post, name="create_post"),
-    path('admin/post/update/<str:id>', views.update_post, name="update_post"),
+    path('my_post/', views.post_management, name="post_management"),
+    path('my_post/create/', views.create_post, name="create_post"),
+    path('my_post/update/<str:id>', views.update_post, name="update_post"),
 ]

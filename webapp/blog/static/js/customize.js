@@ -362,7 +362,7 @@ function createPost() {
 
     $.ajax({
         type: "POST",
-        url: "/en/blog/admin/post/create/",
+        url: "/en/blog/my_post/create/",
         contentType: 'application/json',
         data: dataString,
         success: function (dataserver) {
@@ -370,7 +370,7 @@ function createPost() {
                 document.getElementById("notification").remove()
             }
             section = document.getElementsByClassName("ftco-section")[0].innerHTML
-            section = '<div id="notification" style="border: 1px;"><p>Post "'+ dataserver.title + '" is created. Click <a href=/en/blog/admin/post/update/'+ dataserver.id +'>here</a> to edit.</p></div>' + section;
+            section = '<div id="notification" style="border: 1px;"><p>Post "'+ dataserver.title + '" is created. Click <a href=/en/blog/my_post/update/'+ dataserver.id +'>here</a> to edit.</p></div>' + section;
             document.getElementsByClassName("ftco-section")[0].innerHTML = section
         }
     });
@@ -422,7 +422,7 @@ function updatePost() {
         '}';
 
     let id = document.getElementById("post-id").innerHTML;
-    let url = "/en/blog/admin/post/update/" + id;
+    let url = "/en/blog/my_post/update/" + id;
 
     $.ajax({
         type: "POST",

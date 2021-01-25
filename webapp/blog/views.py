@@ -6,12 +6,13 @@ from bson import ObjectId, json_util
 from django.shortcuts import render, get_object_or_404, redirect, get_list_or_404
 from django.views.decorators.csrf import csrf_exempt
 import re
-from django.contrib.auth import login, authenticate, logout, get_user, get_user_model, validators
+from django.contrib.auth import login, authenticate, logout, get_user, get_user_model, validators, update_session_auth_hash
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError, ObjectDoesNotExist, MultipleObjectsReturned
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 from blog.forms import SignUpForm
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, UserChangeForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, UserChangeForm, PasswordChangeForm
 from blog.models import Post, Comment, Category
 from django.utils.translation import gettext as _
 from django.http import (
@@ -32,12 +33,14 @@ MAX_SEARCH_RESULT = 10
 
 
 @login_required
-def admin(request):
+def post_management(request):
+    User = get_user_model()
     user = get_user(request)
-    if user.is_superuser:
-        return render(request, "admin.html")
-    else:
-        return HttpResponseNotAllowed("Not allowed")
+    posts = User.objects.get(id = user.id).posts.all()
+    data = []
+    for post in posts:
+        data.append({"id": post.id, "title": post.title})
+    return render(request, "post_management.html", {"posts": data})
 
 
 @login_required
@@ -76,40 +79,32 @@ def create_post(request):
 @login_required
 def update_post(request, id):
     user = get_user(request)
-    User = get_user_model()
-    if id == "all":
-        posts = User.objects.get(id = user.id).posts.all()
-        data = []
-        for post in posts:
-            data.append({"id": post.id, "title": post.title})
-        return render(request, "posts_management.html", {"posts": data})
+    if request.method == "POST":
+        received_json_data = json.loads(request.body)
+        category = received_json_data["category"]
+        title = received_json_data["title"]
+        content = received_json_data["content"]
+        thumbnail = received_json_data["thumbnail"]
+        post = get_object_or_404(Post, id=int(id))
+        post.category = Category.objects.get(name=category)
+        post.title = title
+        post.content = content
+        post.thumbnail = thumbnail
+        post.save()
+        return redirect(f"/blog/admin/post/update/{int(id)}")
     else:
-        if request.method == "POST":
-            received_json_data = json.loads(request.body)
-            category = received_json_data["category"]
-            title = received_json_data["title"]
-            content = received_json_data["content"]
-            thumbnail = received_json_data["thumbnail"]
-            post = get_object_or_404(Post, id=int(id))
-            post.category = Category.objects.get(name=category)
-            post.title = title
-            post.content = content
-            post.thumbnail = thumbnail
-            post.save()
-            return redirect(f"/blog/admin/post/update/{int(id)}")
+        post = get_object_or_404(Post, id=int(id))
+        if post.author.id == user.id:
+            data = {
+                "id": post.id,
+                "category": post.category,
+                "title": post.title,
+                "content": post.content,
+                "thumbnail": f"<figure class='image'><img src='{post.thumbnail}'></figure>" if post.thumbnail else ""
+            }
+            return render(request, "update_post.html", {"post": data})
         else:
-            post = get_object_or_404(Post, id=int(id))
-            if post.author.id == user.id:
-                data = {
-                    "id": post.id,
-                    "category": post.category,
-                    "title": post.title,
-                    "content": post.content,
-                    "thumbnail": f"<figure class='image'><img src='{post.thumbnail}'></figure>" if post.thumbnail else ""
-                }
-                return render(request, "update_post.html", {"post": data})
-            else:
-                return HttpResponseNotAllowed("Not allowed")
+            return HttpResponseNotAllowed("Not allowed")
 
 def validate_uname(username):
     User = get_user_model()
@@ -175,6 +170,25 @@ def profile(request):
         return render(request, "profile.html", {"user": user})
 
 
+def password_change(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)  # Important!
+            messages.success(request, 'Your password was successfully updated!')
+            return redirect('profile')
+        else:
+            messages.error(request, 'Please correct the error below.')
+    else:
+        form = PasswordChangeForm(request.user)
+    return render(request, 'password_change.html', {
+        'form': form
+    })
+
+def reset_password(request):
+
+    pass
 def signup(request):
     if request.method == "POST":
         form = SignUpForm(request.POST)
@@ -189,7 +203,7 @@ def signup(request):
                 .replace("/accounts/login/?next=", "")
                 .replace("/en", "")
             )
-            if "accounts/login/" in redirect_to or redirect_to == "" or "accounts/signup/" in redirect_to:
+            if "accounts/" in redirect_to or redirect_to == "":
                 return redirect("home")
             return HttpResponseRedirect(redirect_to)
     else:
@@ -212,7 +226,7 @@ def login_user(request):
             #     .replace("/en", "")
             #     .replace("/vi","")
             # )
-            if "accounts/login/" in redirect_to or redirect_to == "" or "accounts/signup/" in redirect_to:
+            if "accounts/" in redirect_to or redirect_to == "":
                 return redirect("home")
             return HttpResponseRedirect(redirect_to)
         else:
