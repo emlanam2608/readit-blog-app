@@ -2137,8 +2137,8 @@ fieldset:disabled a.btn {
   .btn-success:not(:disabled):not(.disabled):active, .btn-success:not(:disabled):not(.disabled).active,
   .show > .btn-success.dropdown-toggle {
     color: #fff;
-    background-color: #1e7e34;
-    border-color: #1c7430; }
+    background-color: #f856a9;
+    border-color: #b9005f; }
     .btn-success:not(:disabled):not(.disabled):active:focus, .btn-success:not(:disabled):not(.disabled).active:focus,
     .show > .btn-success.dropdown-toggle:focus {
       -webkit-box-shadow: 0 0 0 0.2rem rgba(72, 180, 97, 0.5);
@@ -9401,14 +9401,18 @@ figure img {
   background: linear-gradient(45deg, #f200ff 0%, #ffba42 100%) !important;
 }
 
-.signup-form {
+.signup-form, .login-form {
   width: 450px;
   margin: 0 auto;
   padding: 30px 0;
   font-size: 15px;
 }
 
-.signup-form h2 {
+ .login-form {
+  padding: 30px 0;
+}
+
+.signup-form h2, .login-form h2 {
   color: #636363;
   margin: 0 0 15px;
   position: relative;
@@ -9417,7 +9421,7 @@ figure img {
 .signup-form h2:before, .signup-form h2:after {
   content: "";
   height: 2px;
-  width: 30%;
+  width: 32%;
   background: #d4d4d4;
   position: absolute;
   top: 50%;
@@ -9431,10 +9435,10 @@ figure img {
 }
 .signup-form .hint-text {
   color: #999;
-  margin-bottom: 30px;
+  margin-bottom: 10px;
   text-align: center;
 }
-.signup-form form {
+.signup-form form, .login-form form {
   color: #999;
   border-radius: 3px;
   margin-bottom: 15px;
@@ -9442,7 +9446,7 @@ figure img {
   box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
   padding: 30px;
 }
-.signup-form .form-group {
+.signup-form .form-group, .login-form .form-group {
   margin-bottom: 20px;
 }
 .signup-form input[type="checkbox"] {
@@ -9460,20 +9464,64 @@ figure img {
 .signup-form .row div:last-child {
   padding-left: 10px;
 }       
-.signup-form a {
+.signup-form, .login-form a {
   color: #fff;
   text-decoration: underline;
 }
-.signup-form a:hover {
+.signup-form a:hover, .login-form a:hover {
   text-decoration: none;
 }
-.signup-form form a {
+.signup-form form a, .login-form form a {
   color: #f852ac;
   text-decoration: none;
 }   
-.signup-form form a:hover {
+.signup-form form a:hover, .login-form form a:hover {
   text-decoration: underline;
 }  
+
+@media only screen and (max-width: 769px) {
+
+  .signup-form {
+    width: 88%;
+  }
+
+  .signup-form h2:before, .signup-form h2:after {
+    width: 39%;
+  } 
+
+}
+
+@media only screen and (max-width: 426px) {
+
+  .signup-form {
+    width: 88%;
+  }
+
+  .signup-form h2 {
+    font-size: 1.8rem;
+  }
+
+  .signup-form h2:before, .signup-form h2:after {
+    width: 29%;
+  } 
+
+}
+
+@media only screen and (max-width: 321px) {
+
+  .signup-form {
+    width: 88%;
+  }
+
+  .signup-form h2 {
+    font-size: 1.6rem;
+  }
+
+  .signup-form h2:before, .signup-form h2:after {
+    width: 28%;
+  } 
+
+}
 
 /* test */
 /* Dropdown Button */

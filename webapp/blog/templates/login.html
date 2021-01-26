@@ -1,25 +1,51 @@
 {% extends "base.html" %}
 {% load static %}
 {% block content %}
-<h2>Login</h2>
-  <form method="post">
-    {% csrf_token %}
-    {% if error %}
-        <p style="color: red;">{{error}}</p>
-    {% endif %}
-    {% for field in form %}
-      <p>
-        {{ field.label_tag }}<br>
-        {{ field }}
-        {% if field.help_text %}
-          <small style="color: grey">{{ field.help_text }}</small>
-        {% endif %}
-        {% for error in field.errors %}
-          <p style="color: red">{{ error }}</p>
-        {% endfor %}
-      </p>
-    {% endfor %}
-    <input type="hidden" value="{% if request.REQUEST.next %}{{ request.REQUEST.next }}{% else %}{% if request.META.HTTP_REFERER %}{{ request.META.HTTP_REFERER}}{% else %}/{% endif %}{% endif %}" name="next" />
-    <button type="submit">Login</button>
-  </form>
+<div class="cover" style="padding: 2em 0;">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <img src="https://preview.colorlib.com/theme/bootstrap/login-form-07/images/undraw_remotely_2j6y.svg" class="img-fluid">
+            </div>
+            <div class="col-md-6 contents login-form">
+                <div class="row justify-content-center">
+                    <div class="col-md-8">
+                        <div class="mb-4">
+                            <h3 style="text-align:center;">Log In</h3>
+                        </div>
+                        <form method="post">
+                            {% csrf_token %}
+                            {% for field in form %}
+                            <div class="form-group">
+                                {{ field.label_tag }}
+                                {{ field }}
+                                {% for error in field.errors %}
+                                <p style="color: red">{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                            {% endfor %}
+                            <div class="d-flex mb-5 align-items-center">
+                                <label class="control control--checkbox mb-0"><span>Remember me</span>
+                                    <input type="checkbox" checked="checked">
+                                </label>
+                                <span class="ml-auto"><a href="#" class="forgot-pass">Forgot Password?</a></span>
+                            </div>
+                            <input type="hidden" value="{% if request.REQUEST.next %}{{ request.REQUEST.next }}{% else %}{% if request.META.HTTP_REFERER %}{{ request.META.HTTP_REFERER}}{% else %}/{% endif %}{% endif %}" name="next" />
+                            <button type="submit" class="btn btn-success btn-block btn-lg" style="padding: 6px 12px; font-weight: 400; font-size: 1em;">Log In</button>
+                        </form>
+                        <div class="d-flex mb-5 align-items-center">
+                            <span>Don't have an account? <a href="#" class="create-new" style="color: black;">Create new</a></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.querySelector("#ftco-navbar").style.position = 'inherit'
+let inputs = document.querySelectorAll("form > div.form-group > input");
+inputs.forEach(el => el.className = 'form-control');
+</script>
 {% endblock %}

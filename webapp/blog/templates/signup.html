@@ -1,12 +1,12 @@
 {% extends "base.html" %}
 {% load static %}
 {% block content %}
-<div class="background" style='background-image: url("https://res.cloudinary.com/nmnhat/image/upload/v1611368276/photo-1487081968683-2a6664e725ce_rh4xyn.jpg"); background-repeat: no-repeat; background-position: center;'>
+<div class="background" style='background-image: url("https://res.cloudinary.com/nmnhat/image/upload/v1611368276/photo-1487081968683-2a6664e725ce_rh4xyn.jpg"); background-repeat: no-repeat; background-position: center;     background-size: cover;padding: 4% 0;'>
   <div class="signup-form">
     <form method="post">
       <h2>Register</h2>
       <p class="hint-text">Create your account. It's free and only takes a minute.</p>
-      <div class="form-group" style="margin-bottom: 20px;">
+      <div class="form-group">
         <div class="row">
           <div class="col"></div>
           <div class="col"></div>
@@ -14,7 +14,7 @@
       </div>
       {% csrf_token %}
       {% for field in form %}
-      <div class="form-group" style="margin-bottom: 20px;">
+      <div class="form-group">
           {{ field }}
           {% if field.name == 'password1' %}
             <small style="color: grey; margin-top: 1rem;">{{ field.help_text }}</small>
@@ -58,7 +58,6 @@
 
     else if (/last_name/g.test(arr[i])){
       let dom = document.querySelector("#id_last_name");
-      console.log('1');
       dom.remove();
       lastName.appendChild(dom);
     }
