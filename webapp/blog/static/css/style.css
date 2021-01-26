@@ -8619,7 +8619,7 @@ textarea.form-control {
   background: #ffd369 !important; }
 
 .ftco-section {
-  padding: 7em 0;
+  padding: 5em 0;
   position: relative; }
   @media (max-width: 767.98px) {
     .ftco-section {
@@ -9464,7 +9464,7 @@ figure img {
 .signup-form .row div:last-child {
   padding-left: 10px;
 }       
-.signup-form, .login-form a {
+.signup-form a, .login-form a {
   color: #fff;
   text-decoration: underline;
 }

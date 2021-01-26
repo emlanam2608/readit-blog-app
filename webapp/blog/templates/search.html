@@ -2,6 +2,19 @@
 {% load static %}
 {% load custom_tags %}
 {% block content %}
+<style type="text/css">
+    .post {
+        padding: 1rem 0;
+        display: grid;
+        grid-gap: 30px;
+        grid-template-columns: 360px auto auto;
+        grid-template-areas:
+            "img title title"
+            "img xcontent xcontent";
+        color: #444;
+    }
+</style>
+<h2 style="text-align: center; margin-top: 3rem;">Results</h3>
 <section class="ftco-section">
     {% if not_found %}
     <h3>Not Found "{{keyword|replace_plus}}"</h3>
@@ -10,15 +23,16 @@
         <div class="row">
             <div class="col-lg-8 col-md-10 mx-auto">
                 {% for post in data %}
-                    <hr>
-                    <div class="post">
-                        <a href="{% url 'post' id=post.id %}">
-                            <h1 class="post-title">{{post.title|replace_quotes|safe}}</h1>
-                        </a>
-                        <p>{{ post.content|replace_quotes|safe|linebreaks }}</p>
-
-                    </div>
-                    
+                <div class="post" style="display:grid;">
+                    <a style="grid-area: img;" href="">
+                        <img style="background-image: url(' {{post.thumbnail|safe}} '); background-position: center; background-size: cover; height: 100%; width: 100%;">
+                    </a>
+                    <a style="grid-area: title;" href="{% url 'post' id=post.id %}">
+                        <h4 class="post-title">{{post.title|replace_quotes|safe}}</h4>
+                    </a>
+                    <div style="grid-area: xcontent;">{{ post.content|replace_quotes|safe|linebreaks }}</div>
+                </div>
+                <hr>
                 {%endfor%}
             </div>
         </div>
@@ -46,4 +60,7 @@
     </div>
     {% endif %}
 </section>
+<script type="text/javascript">
+document.querySelector("#ftco-navbar").style.position = 'inherit'
+</script>
 {% endblock %}

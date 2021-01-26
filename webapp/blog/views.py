@@ -661,6 +661,7 @@ def search(request, page=1):
                     "title": search_result[index]["title"],
                     "content": truncate_for_search_highlight(search_result[index]["content"], 10),
                     "date": search_result[index]["created_at"],
+                    "thumbnail": search_result[index]["thumbnail"]
                 }
             )
         else:

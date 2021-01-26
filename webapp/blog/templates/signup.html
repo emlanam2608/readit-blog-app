@@ -1,10 +1,10 @@
 {% extends "base.html" %}
 {% load static %}
 {% block content %}
-<div class="background" style='background-image: url("https://res.cloudinary.com/nmnhat/image/upload/v1611368276/photo-1487081968683-2a6664e725ce_rh4xyn.jpg"); background-repeat: no-repeat; background-position: center;     background-size: cover;padding: 4% 0;'>
+<div class="background" style='height: 878px; background-image: url("https://res.cloudinary.com/nmnhat/image/upload/v1611368276/photo-1487081968683-2a6664e725ce_rh4xyn.jpg"); background-repeat: no-repeat; background-position: center;     background-size: cover;padding: 4% 0;'>
   <div class="signup-form">
     <form method="post">
-      <h2>Register</h2>
+      <h2>Sign Up</h2>
       <p class="hint-text">Create your account. It's free and only takes a minute.</p>
       <div class="form-group">
         <div class="row">
@@ -26,7 +26,7 @@
       {% endfor %}
       <input type="hidden" value="{% if request.REQUEST.next %}{{ request.REQUEST.next }}{% else %}{% if request.META.HTTP_REFERER %}{{ request.META.HTTP_REFERER }}{% else %}/{% endif %}{% endif %}" name="next" />
       <div class="form-group">
-        <button type="submit" class="btn btn-success btn-lg btn-block">Register Now</button>
+        <button type="submit" class="btn btn-success btn-lg btn-block">Submit</button>
       </div>
       <div class="text-center">Already have an account? <a href="/en/accounts/login">Log in</a></div>
     </form>
