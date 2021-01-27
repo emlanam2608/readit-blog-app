@@ -23,8 +23,8 @@ from django.http import (
     HttpResponseRedirect,
 )
 
-MAX_POST_HOME_PAGE = 4
-MAX_POST_CATEGORY_PAGE = 4
+MAX_POST_HOME_PAGE = 5
+MAX_POST_CATEGORY_PAGE = 6
 MAX_PAGE = 3
 MAX_SEARCH_RESULT = 10
 
@@ -47,7 +47,7 @@ def post_management(request):
 def create_post(request):
     user = get_user(request)
     if request.method == "POST":
-        received_json_data = json.loads(request.body)
+        received_json_data = json.loads(request.body, strict = False)
         category = received_json_data["category"]
         title = received_json_data["title"]
         content = received_json_data["content"]
@@ -68,8 +68,6 @@ def create_post(request):
                 "id": post.id,
                 "title": post.title
             }
-            print(data)
-            # return render(request, "create_post.html", {"post":data})
             return HttpResponse(json.dumps(data), content_type="application/json")
     return render(request, "create_post.html")
 
@@ -80,7 +78,7 @@ def create_post(request):
 def update_post(request, id):
     user = get_user(request)
     if request.method == "POST":
-        received_json_data = json.loads(request.body)
+        received_json_data = json.loads(request.body, strict = False)
         category = received_json_data["category"]
         title = received_json_data["title"]
         content = received_json_data["content"]
@@ -91,7 +89,12 @@ def update_post(request, id):
         post.content = content
         post.thumbnail = thumbnail
         post.save()
-        return redirect(f"/blog/admin/post/update/{int(id)}")
+        if post:
+            data = {
+                "id": post.id,
+                "title": post.title
+            }
+            return HttpResponse(json.dumps(data), content_type="application/json")
     else:
         post = get_object_or_404(Post, id=int(id))
         if post.author.id == user.id:
@@ -211,7 +214,7 @@ def signup(request):
     return render(request, "signup.html", {"form": form})
 
 
-def login_user(request):
+def signin(request):
     if request.method == "POST":
         username = request.POST["username"]
         raw_password = request.POST["password"]
@@ -232,13 +235,13 @@ def login_user(request):
         else:
             form = AuthenticationForm()
             error = "Username or password is not correct"
-            return render(request, "login.html", {"form": form, "error": error})
+            return render(request, "signin.html", {"form": form, "error": error})
     else:
         form = AuthenticationForm()
-        return render(request, "login.html", {"form": form})
+        return render(request, "signin.html", {"form": form})
 
 
-def logout_user(request):
+def signout(request):
     logout(request)
     redirect_to = request.GET.get("next", "")
     print(redirect_to)
@@ -327,7 +330,7 @@ def post_comment(request):
     try:
         if request.method == "POST":
             print(request.body)
-            received_json_data = json.loads(request.body)
+            received_json_data = json.loads(request.body, strict = False)
             # category = received_json_data['category']
             # author_username = received_json_data["author"]
             content = received_json_data["content"]
@@ -418,33 +421,20 @@ def get_recent_posts(request, page=1):
 
 
 def get_post(request, id):
-    # post = Post.objects.get(_id=ObjectId(id))
     post = get_object_or_404(Post, id=int(id))
-    # parents = []
-    # children = {}
-    # comments = post.comments.all().order_by("created_at").values()
-    # comments_count = len(comments)
-    # for comment in comments:
-    #     if comment["group"] == "0":
-    #         parents.append(comment)
-    #     else:
-    #         if comment["group"] in children.keys():
-    #             children[comment["group"]].append(comment)
-    #         else:
-    #             children[comment["group"]] = [comment]
-
-    # for parent in parents:
-    #     group = str(parent["id"])
-    #     if group in children.keys():
-    #         parent["children"] = children[group]
+    figure_regex = r"<figure class=(\"|\')media(\"|\')><oembed url=(\"|\')(.*?)v=(\w*?)((\"|\')|&)(.*?)><\/oembed><\/figure>"
+    tmp = re.findall(figure_regex, post.content)
+    ids = [ group[4] for group in tmp]
+    print(ids)
+    replace_regex = re.compile(r"<figure class=.*?><\/oembed><\/figure>")
+    for id in ids:
+        post.content = re.sub(replace_regex, f"<div style='position: relative; padding-bottom: 100%; height: 0; padding-bottom: 56.2493%;'><iframe src='https://www.youtube.com/embed/{id}' style='position: absolute; width: 100%; height: 100%; top: 0; left: 0;' frameborder='0' allow='autoplay; encrypted-media' allowfullscreen=''></iframe></div>", post.content, count=1)
 
     data = {
         "id": post.id,
         "category": post.category,
         "title": post.title,
         "content": post.content,
-        # "comments": parents,
-        # "comments_count": comments_count,
         "date": post.created_at,
         "thumbnail": post.thumbnail,
     }
@@ -521,7 +511,7 @@ def find_category(regex):
 
 def category(request, cat, page=1):
     cat = find_category(cat)
-    post = Category.objects.get(name=cat).posts.all()
+    post = Category.objects.get(name=cat).posts.all().order_by("created_at").reverse()
     max_length = len(post)
     data = []
     for i in range(MAX_POST_CATEGORY_PAGE):
@@ -544,7 +534,7 @@ def category(request, cat, page=1):
             break
 
     nav_bar = modify_bottom_nav_bar(max_length, page, MAX_POST_CATEGORY_PAGE)
-
+    print(cat)
     context = {"data": data, "nav_bar": nav_bar, "page": page, "nav_tab": cat}
     return render(request, "category.html", context)
 

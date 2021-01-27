@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load i18n %}
 {% block content %}
 <div class="background" style='height: 878px; background-image: url("https://res.cloudinary.com/nmnhat/image/upload/v1611368276/photo-1487081968683-2a6664e725ce_rh4xyn.jpg"); background-repeat: no-repeat; background-position: center;     background-size: cover;padding: 4% 0;'>
   <div class="signup-form">
@@ -28,7 +29,7 @@
       <div class="form-group">
         <button type="submit" class="btn btn-success btn-lg btn-block">Submit</button>
       </div>
-      <div class="text-center">Already have an account? <a href="/en/accounts/login">Log in</a></div>
+      <div class="text-center">Already have an account? <a href="{% url 'signin' %}">Log in</a></div>
     </form>
   </div>
 </div>

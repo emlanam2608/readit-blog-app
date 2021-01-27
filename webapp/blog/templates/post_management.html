@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load i18n %}
 {% block content %}
 <section class="ftco-section">
     <h4>Post Management</h5>
@@ -7,7 +8,7 @@
     <a href="/en/blog/my_post/create/">Create new post</a>
     <h2>My posts</h2>
     {% for post in posts %}
-        <a href="/blog/admin/post/update/{{post.id}}">{{post.title|safe}}</a><br>
+        <a href="{% url 'update_post' id=post.id %}">{{post.title|safe}}</a><br>
     {% endfor %}
 </section>
 {% endblock %}

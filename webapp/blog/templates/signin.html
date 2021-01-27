@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load i18n %}
 {% block content %}
 <div class="cover" style="padding: 2em 0;">
     <div class="container">
@@ -28,13 +29,13 @@
                                 <label class="control control--checkbox mb-0"><span>Remember me</span>
                                     <input type="checkbox" checked="checked">
                                 </label>
-                                <span class="ml-auto"><a href="#" class="forgot-pass">Forgot Password?</a></span>
+                                <span class="ml-auto"><a href="{% url "password_reset" %}" class="forgot-pass">Forgot Password?</a></span>
                             </div>
                             <input type="hidden" value="{% if request.REQUEST.next %}{{ request.REQUEST.next }}{% else %}{% if request.META.HTTP_REFERER %}{{ request.META.HTTP_REFERER}}{% else %}/{% endif %}{% endif %}" name="next" />
-                            <button type="submit" class="btn btn-success btn-block btn-lg" style="padding: 6px 12px; font-weight: 400; font-size: 1em;">Log In</button>
+                            <button type="submit" class="btn btn-success btn-block btn-lg" style="padding: 6px 12px; font-weight: 400; font-size: 1em;">{% trans "Sign In" %}</button>
                         </form>
                         <div class="d-flex mb-5 align-items-center">
-                            <span>Don't have an account? <a href="#" class="create-new" style="color: black;">Create new</a></span>
+                            <span>{% trans "Don't have an account?" %} <a href="{% url 'signup' %}" class="create-new" style="color: black;">{% trans "Create new" %}</a></span>
                         </div>
                     </div>
                 </div>

@@ -26,11 +26,11 @@ urlpatterns = [
 ]
 
 urlpatterns += i18n_patterns(
-    
+    path('', views.home, name="home"),
     path('blog/', include('blog.urls')),
     path('accounts/signup/', views.signup, name="signup"),
-    path('accounts/login/', views.login_user, name="login"),
-    path('accounts/logout/', views.logout_user, name="logout"),
+    path('accounts/signin/', views.signin, name="signin"),
+    path('accounts/signout/', views.signout, name="signout"),
     path('accounts/profile/', views.profile, name="profile"),
     path('accounts/password/change/', views.password_change, name="password_change"),
     path('accounts/user/', views.get_user_session, name="get_user_session"),

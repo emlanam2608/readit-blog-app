@@ -366,12 +366,14 @@ function createPost() {
         contentType: 'application/json',
         data: dataString,
         success: function (dataserver) {
-            if (document.getElementById("notification")) {
-                document.getElementById("notification").remove()
-            }
-            section = document.getElementsByClassName("ftco-section")[0].innerHTML
-            section = '<div id="notification" style="border: 1px;"><p>Post "'+ dataserver.title + '" is created. Click <a href=/en/blog/my_post/update/'+ dataserver.id +'>here</a> to edit.</p></div>' + section;
-            document.getElementsByClassName("ftco-section")[0].innerHTML = section
+            // if (document.getElementById("notification")) {
+            //     document.getElementById("notification").remove()
+            // }
+            // section = document.getElementsByClassName("ftco-section")[0].innerHTML
+            // section = '<div id="notification" style="border: 1px;"><p>Post "'+ dataserver.title + '" is created. Click <a href=/en/blog/my_post/update/'+ dataserver.id +'>here</a> to edit.</p></div>' + section;
+            // document.getElementsByClassName("ftco-section")[0].innerHTML = section
+            alert("Post "+ dataserver.title + " is created.");
+            window.location.href = "/blog/my_post/";
         }
     });
 };
@@ -430,12 +432,14 @@ function updatePost() {
         contentType: 'application/json',
         data: dataString,
         success: function (dataserver) {
-            if (document.getElementById("notification")) {
-                document.getElementById("notification").remove()
-            }
-            section = document.getElementsByClassName("ftco-section")[0].innerHTML
-            section = '<div id="notification" style="border: 1px;"><p>Post is updated.</p>' + section;
-            document.getElementsByClassName("ftco-section")[0].innerHTML = section
+            // if (document.getElementById("notification")) {
+            //     document.getElementById("notification").remove()
+            // }
+            // section = document.getElementsByClassName("ftco-section")[0].innerHTML
+            // section = '<div id="notification" style="border: 1px;"><p>Post is updated.</p>' + section;
+            // document.getElementsByClassName("ftco-section")[0].innerHTML = section
+            alert("Post "+ dataserver.title + " is updated.");
+            window.location.href = "/blog/my_post/";
         }
     });
 };
