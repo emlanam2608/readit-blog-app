@@ -176,6 +176,7 @@ function load_recent_posts () {
     var post_id = document.getElementById("post_id").innerText;
     var random = 3;
     var dataString = '{ "random":"' + random + '",' +
+        '"lang":"' + lang + '",' +
         '"except":"' + post_id + '"}';
 
     $.ajax({
@@ -269,13 +270,20 @@ function render_children_comments(parent, level) {
     return html
 }
 
+
 function format_date(date) {
-    // lang = gettext("en")
-    // if (lang == "vi") {
-    //     console.log("yes")
-    // }
-    return date.month + ". " + date.day + ", " + date.year + ", " + date.hour + ":" + date.minute + " " + date["AM-PM"]
-    // return Nov. 17, 2020, 2:47 p.m.
+    if (lang == "vi") {
+        return date.hour + ":" + date.minute + " Ngày " + date.day + " tháng " + date.month + " năm " + date.year
+        // 16:59 Ngày 29 tháng 1 năm 2021
+
+
+    }
+    else {
+        return date.month + ". " + date.day + ", " + date.year + ", " + date.hour + ":" + date.minute + " " + date["AM-PM"]
+        // return Nov. 17, 2020, 2:47 p.m.
+    }
+    
+    
 }
 
 function add_flag(is_flagged) {
@@ -333,8 +341,10 @@ function init_comment_func() {
     document.getElementById("commentContainer").innerHTML += html
 }
 
-
+var lang;
 $(document).ready(function () {
+    let current_lang = gettext("en");
+    lang = current_lang;
     is_logged_in();
     var post_id = document.getElementById("post_id").innerText;
     document.getElementById("viewMoreComment").style.display = "none";

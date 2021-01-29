@@ -1,20 +1,37 @@
 {% extends "base.html" %}
 {% load static %}
+{% load i18n %}
 {% block content %}
-<h2>Profile</h2>
+<div class="signup-form">
   <form id="profile-form">
-      <label for="uname">Username:</label>
-      <input type="text" name="uname" id="uname" value={{user.username}} readonly><br>
-      
-      <label for="fname">First Name:</label>
-      <input type="text" name="fname" id="fname" value={{user.first_name}}><br>
-      
-      <label for="lname">Last Name:</label>
-      <input type="text" name="lname" id="lname" value={{user.last_name}}><br>
-
-      <label for="email">Email:</label>
-      <input type="email" name="email" id="email" value={{user.email}}><br>
-
-      <input type="submit" value="submit">
+  <h2>{% trans "Profile" %}</h2>
+    <div class="form-group row">
+      <label for="uname" class="col-sm-4 col-form-label">{% trans "Username" %}</label>
+      <div class="col-sm-8">
+        <input type="text" name="uname" id="uname" value={{user.username}} readonly  class="form-control">
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="uname" class="col-sm-4 col-form-label">{% trans "First Name" %}</label>
+      <div class="col-sm-8">
+        <input type="text" name="fname" id="fname" value={{user.first_name}}  class="form-control">
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="uname" class="col-sm-4 col-form-label">{% trans "Last Name" %}</label>
+      <div class="col-sm-8">
+        <input type="text" name="lname" id="lname" value={{user.last_name}}  class="form-control">
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="uname" class="col-sm-4 col-form-label">{% trans "Email" %}</label>
+      <div class="col-sm-8">
+        <input type="text" name="uname" id="uname" value={{user.username}}  class="form-control">
+      </div>
+    </div>
+    <div class="form-group">
+      <input type="submit" class="btn btn-success btn-lg btn-block" value="submit">
+    </div>
   </form>
+</div>
 {% endblock %}

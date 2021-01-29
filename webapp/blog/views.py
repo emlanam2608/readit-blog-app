@@ -217,7 +217,7 @@ def signup(request):
             login(request, user)
             redirect_to = (
                 request.POST.get("next", "")
-                .replace("/accounts/login/?next=", "")
+                .replace("/accounts/signin/?next=", "")
                 .replace("/en", "")
             )
             if "accounts/" in redirect_to or redirect_to == "":
@@ -257,20 +257,37 @@ def signin(request):
 
 def signout(request):
     logout(request)
-    redirect_to = request.GET.get("next", "")
-    print(redirect_to)
-    return HttpResponseRedirect(redirect_to)
+    return redirect("home")
 
 
 def get_user_session(request):
     return HttpResponse(get_user(request).username)
 
-def format_datetime(datetime):
+def format_datetime(datetime, lang="en"):
     date = {}
+    month_by_lang = {
+        "Jan": "Tháng 1",
+        "Feb": "Tháng 2",
+        "Mar": "Tháng 3",
+        "Apr": "Tháng 4",
+        "Jun": "Tháng 6",
+        "Jul": "Tháng 7",
+        "Aug": "Tháng 8",
+        "Sep": "Tháng 9",
+        "Oct": "Tháng 10",
+        "Nov": "Tháng 11",
+        "Dec": "Tháng 12",
+        "May": "Tháng 5",
+    }
     date["day"] = datetime.strftime("%d")
     date["month"] = datetime.strftime("%b")
+    if lang == "vi":
+        date["month"] = month_by_lang[date["month"]]
     date["year"] = datetime.strftime("%Y")
-    date["hour"] = datetime.strftime("%I")
+    if lang == "vi":
+        date["hour"] = datetime.strftime("%H")
+    else:
+        date["hour"] = datetime.strftime("%I")
     date["minute"] = datetime.strftime("%M")
     date["second"] = datetime.strftime("%S")
     date["AM-PM"] = "a.m." if datetime.strftime("%p") == "AM" else "p.m."
@@ -284,11 +301,12 @@ def load_comments(request, id):
     comments = []
     query_comments = post.comments.all().order_by("created_at").values()
     comments_count = len(query_comments)
+    lang = request.LANGUAGE_CODE
     
     for comment in query_comments:
         if comment["hidden"]:
             continue
-        comment["created_at"] = format_datetime(comment["created_at"])
+        comment["created_at"] = format_datetime(comment["created_at"], lang)
         comments.append(comment)
     level_array = []
     x = 0
@@ -347,6 +365,7 @@ def post_comment(request):
             post_id = received_json_data["post_id"]
             author = get_user(request)
             author_username = author.username
+            lang = request.LANGUAGE_CODE
 
             if "parent_id" in received_json_data:
                 parent_id = received_json_data["parent_id"]
@@ -362,7 +381,7 @@ def post_comment(request):
             post = get_object_or_404(Post, id=int(post_id))
             latest_comment = post.comments.all().order_by("created_at").values().last()
             latest_comment["created_at"] = format_datetime(
-                latest_comment["created_at"])
+                latest_comment["created_at"], lang)
 
             return HttpResponse(
                 json.dumps(latest_comment), content_type="application/json"
@@ -416,6 +435,7 @@ def get_recent_posts(request, page=1):
         received_json_data = json.loads(request.body)
         ran = int(received_json_data["random"])
         except_id = int(received_json_data["except"])
+        lang = received_json_data["lang"]
         for i in range(len(data)):
             if data[i]["id"] == except_id:
                 data.pop(i)
@@ -423,7 +443,7 @@ def get_recent_posts(request, page=1):
         idx = sample(range(0, len(data)), ran)
         response = [data[i] for i in idx]
         for d in response:
-            d["date"] = format_datetime(d["date"])
+            d["date"] = format_datetime(d["date"], lang)
         return HttpResponse(json.dumps(response), content_type="application/json")
 
     else:
@@ -541,6 +561,7 @@ def category(request, cat, page=1):
     post = Category.objects.get(name=cat).posts.all().order_by("created_at").reverse()
     max_length = len(post)
     data = []
+    lang = request.LANGUAGE_CODE
     for i in range(MAX_POST_CATEGORY_PAGE):
         index = i + (page - 1) * MAX_POST_CATEGORY_PAGE
         if index < max_length:
@@ -553,7 +574,7 @@ def category(request, cat, page=1):
                     "category": post[index].category,
                     "title": truncate(post[index].title, 10),
                     "content": truncate(post[index].content, 30),
-                    "date": format_datetime(post[index].created_at),
+                    "date": format_datetime(post[index].created_at, lang),
                     "thumbnail": post[index].thumbnail,
                 }
             )

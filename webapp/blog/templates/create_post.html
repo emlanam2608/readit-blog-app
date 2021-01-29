@@ -1,30 +1,31 @@
 {% extends "base.html" %}
 {% load static %}
+{% load i18n %}
 {% block content %}
 <section class="ftco-section">
     <select name="category" id="category">
-        <option value="Technology">Technology</option>
-        <option value="Coding">Coding</option>
-        <option value="Inspiration">Inspiration</option>
+        <option value="Technology">{% trans "Technology" %}</option>
+        <option value="Coding">{% trans "Coding" %}</option>
+        <option value="Inspiration">{% trans "Inspiration" %}</option>
     </select>
     <br><br>
 
     <div class="post-editor">
-        <p class="lable-editor">Thumbnail:</p>
+        <p class="lable-editor">{% trans "Thumbnail" %}:</p>
         <div id="thumbnail-editor">
         </div>
 
-        <p class="lable-editor">Title:</p>
+        <p class="lable-editor">{% trans "Title" %}:</p>
         <div id="title-editor">
             <textarea id="post-title"></textarea>
         </div>
 
-        <p class="lable-editor">Content:</p>
+        <p class="lable-editor">{% trans "Content" %}:</p>
         <div id="content-editor">
         </div>
         <br>
     </div>
     <br>
-    <button type="Submit" onclick="createPost()">Submit</button>
+    <button type="Submit" onclick="createPost()">{% trans "Create" %}</button>
 </section>
 {% endblock %}

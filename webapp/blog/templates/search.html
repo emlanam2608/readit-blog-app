@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load i18n %}
 {% load custom_tags %}
 {% block content %}
 <style type="text/css">
@@ -14,7 +15,7 @@
         color: #444;
     }
 </style>
-<h2 style="text-align: center; margin-top: 3rem;">Results</h3>
+<h2 style="text-align: center; margin-top: 3rem;">{% trans "Results" %}</h3>
 <section class="ftco-section">
     {% if not_found %}
     <h3>Not Found "{{keyword|replace_plus}}"</h3>

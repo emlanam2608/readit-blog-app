@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-01-22 04:21+0700\n"
+"POT-Creation-Date: 2021-01-30 02:10+0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -27,6 +27,197 @@ msgstr "BÀI VIẾT MỚI"
 msgid "Read more"
 msgstr "Đọc thêm"
 
+#: .\blog\templates\create_post.html:6 .\blog\templates\snippet\footer.html:22
+#: .\blog\templates\snippet\header.html:12 .\blog\templates\update_post.html:6
+msgid "Technology"
+msgstr "Công nghệ"
+
+#: .\blog\templates\create_post.html:7 .\blog\templates\snippet\footer.html:23
+#: .\blog\templates\snippet\header.html:13 .\blog\templates\update_post.html:7
+msgid "Coding"
+msgstr "Lập trình"
+
+#: .\blog\templates\create_post.html:8 .\blog\templates\snippet\footer.html:24
+#: .\blog\templates\snippet\header.html:14
+msgid "Inspiration"
+msgstr "Cảm hứng"
+
+#: .\blog\templates\create_post.html:13 .\blog\templates\update_post.html:14
+msgid "Thumbnail"
+msgstr "Hình đại diện"
+
+#: .\blog\templates\create_post.html:17 .\blog\templates\update_post.html:19
+msgid "Title"
+msgstr "Tiêu đề"
+
+#: .\blog\templates\create_post.html:22 .\blog\templates\update_post.html:24
+msgid "Content"
+msgstr "Nội dung"
+
+#: .\blog\templates\create_post.html:28
+msgid "Create"
+msgstr "Tạo"
+
+#: .\blog\templates\password_change.html:4
+#: .\blog\templates\password_reset_confirm.html:7
+#: .\blog\templates\password_reset_confirm.html:22
+#: .\blog\templates\snippet\header.html:32
+msgid "Change Password"
+msgstr "Đổi mật khẩu"
+
+#: .\blog\templates\password_change.html:23
+msgid "Change password"
+msgstr "Đổi mật khẩu"
+
+#: .\blog\templates\password_reset_complete.html:4
+#: .\blog\templates\password_reset_complete.html:23
+msgid "Login"
+msgstr "Đăng nhập"
+
+#: .\blog\templates\password_reset_confirm.html:28
+msgid "The password reset link was invalid, possibly because it has already been used"
+msgstr "Đường dẫn không hợp lệ hoặc có thể đã được sử dụng"
+
+#: .\blog\templates\password_reset_confirm.html:29
+msgid "Please request a new password reset"
+msgstr "Vui lòng gửi lại yêu cầu đặt lại mật khẩu"
+
+#: .\blog\templates\password_reset_done.html:4
+msgid "Password reset sent"
+msgstr "Đã gửi yêu cầu đặt lại mật khẩu"
+
+#: .\blog\templates\password_reset_done.html:5
+msgid "We’ve emailed you instructions for setting your password, if an account exists with the email you entered. You should receive them shortly"
+msgstr "Chúng tôi đã gửi hướng dẫn đặt lại mật khẩu qua email"
+
+#: .\blog\templates\password_reset_email.html:2
+msgid "Dear"
+msgstr "Chào"
+
+#: .\blog\templates\password_reset_email.html:3
+msgid "You receive this email because you requested reset your account password. If not, do not click the link"
+msgstr "Bạn nhận được email này vì tài khoản của bạn được yêu cầu đặt lại mật khẩu. Nếu không phải bại, vui lòng bỏ qua email này và không nhấn vào đường dẫn"
+
+#: .\blog\templates\password_reset_email.html:4
+msgid "To initiate the password reset process for your {{ user.get_username }} readit-blog-app account, click the link below"
+msgstr ""
+
+#: .\blog\templates\password_reset_email.html:6
+msgid ""
+"If clicking the link above doesn't work, please copy and paste the URL in a "
+"new browser window instead"
+msgstr ""
+
+#: .\blog\templates\password_reset_email.html:8
+msgid "Sincerely"
+msgstr "Trân trọng"
+
+#: .\blog\templates\password_reset_form.html:4
+#: .\blog\templates\password_reset_form.html:23
+msgid "Reset Password"
+msgstr "Đặt lại mật khẩu"
+
+#: .\blog\templates\post.html:39
+msgid "Comments"
+msgstr "Bình luận"
+
+#: .\blog\templates\post.html:43
+msgid "View more comments"
+msgstr "Xem thêm bình luận"
+
+#: .\blog\templates\post.html:64
+msgid "Recent Posts"
+msgstr "Bài viết gần đây"
+
+#: .\blog\templates\post_management.html:6
+msgid "Post Management"
+msgstr "Quản lý bài viết"
+
+#: .\blog\templates\post_management.html:8
+msgid "Create new post"
+msgstr "Tạo bài viết mới"
+
+#: .\blog\templates\post_management.html:9
+#: .\blog\templates\snippet\header.html:30
+msgid "My posts"
+msgstr "Bài viết của tôi"
+
+#: .\blog\templates\post_management.html:13
+msgid "Edit"
+msgstr "Sửa"
+
+#: .\blog\templates\post_management.html:15
+msgid "This post is hidden due to containing bad words"
+msgstr "Bài viết này đã bị ẩn vì chứa các từ nhạy cảm"
+
+#: .\blog\templates\profile.html:4 .\blog\templates\snippet\header.html:31
+msgid "Profile"
+msgstr "Hồ sơ"
+
+#: .\blog\templates\profile.html:6
+msgid "Username"
+msgstr "Tên đăng nhập"
+
+#: .\blog\templates\profile.html:9
+msgid "First Name"
+msgstr "Tên"
+
+#: .\blog\templates\profile.html:12
+msgid "Last Name"
+msgstr "Họ"
+
+#: .\blog\templates\profile.html:15
+msgid "Email"
+msgstr "Email"
+
+#: .\blog\templates\profile.html:18
+msgid "Update"
+msgstr "Cập nhật"
+
+#: .\blog\templates\search.html:17
+msgid "Results"
+msgstr "Kết quả"
+
+#: .\blog\templates\signin.html:15
+msgid "Log In"
+msgstr "Đăng nhập"
+
+#: .\blog\templates\signin.html:29
+msgid "Remember me"
+msgstr "Ghi nhớ"
+
+#: .\blog\templates\signin.html:32
+msgid "Forgot Password?"
+msgstr "Quên mật khẩu?"
+
+#: .\blog\templates\signin.html:35
+msgid "Sign In"
+msgstr "Đăng kí"
+
+#: .\blog\templates\signin.html:38
+msgid "Don't have an account?"
+msgstr "Chưa có tài khoản?"
+
+#: .\blog\templates\signin.html:38
+msgid "Create new"
+msgstr "Tạo mới"
+
+#: .\blog\templates\signup.html:8
+msgid "Sign Up"
+msgstr "Đăng kí"
+
+#: .\blog\templates\signup.html:9
+msgid "Create your account. It's free and only takes a minute"
+msgstr "Tạo tài khoản mới"
+
+#: .\blog\templates\signup.html:32
+msgid "Already have an account"
+msgstr "Đã có tài khoản"
+
+#: .\blog\templates\signup.html:32
+msgid "Log in"
+msgstr "Đăng nhập"
+
 #: .\blog\templates\snippet\footer.html:19
 #: .\blog\templates\snippet\header.html:7
 msgid "Menu"
@@ -34,24 +225,9 @@ msgstr "Danh mục"
 
 #: .\blog\templates\snippet\footer.html:21
 #: .\blog\templates\snippet\header.html:11
-#: .\blog\templates\snippet\header.html:63
+#: .\blog\templates\snippet\header.html:87
 msgid "Home"
 msgstr "Trang chủ"
-
-#: .\blog\templates\snippet\footer.html:22
-#: .\blog\templates\snippet\header.html:12
-msgid "Technology"
-msgstr "Công nghệ"
-
-#: .\blog\templates\snippet\footer.html:23
-#: .\blog\templates\snippet\header.html:13
-msgid "Coding"
-msgstr "Lập trình"
-
-#: .\blog\templates\snippet\footer.html:24
-#: .\blog\templates\snippet\header.html:14
-msgid "Inspiration"
-msgstr "Cảm hứng"
 
 #: .\blog\templates\snippet\footer.html:25
 #: .\blog\templates\snippet\header.html:15
@@ -70,31 +246,26 @@ msgstr "Tìm kiếm"
 msgid "Welcome"
 msgstr "Xin chào"
 
-#: .\blog\templates\snippet\header.html:27
-msgid "Logout"
+#: .\blog\templates\snippet\header.html:33
+msgid "Sign out"
 msgstr "Đăng xuất"
 
-#: .\blog\templates\snippet\header.html:29
-msgid "Login"
+#: .\blog\templates\snippet\header.html:38
+msgid "Sign in"
 msgstr "Đăng nhập"
 
-#: .\blog\templates\snippet\header.html:30
+#: .\blog\templates\snippet\header.html:39
 msgid "Sign up"
 msgstr "Đăng kí"
 
-#: .\blog\templates\snippet\header.html:63
+#: .\blog\templates\snippet\header.html:87
 msgid "Category"
 msgstr "Danh mục"
 
-#: .\blog\templates\snippet\header.html:80
+#: .\blog\templates\snippet\header.html:104
 msgid "Hello! Welcome to"
 msgstr "Chào mừng đến với"
 
-#~ msgid "technology"
-#~ msgstr "Công nghệ"
-
-#~ msgid "inspiration"
-#~ msgstr "Nguồn cảm hứng"
-
-#~ msgid "coding"
-#~ msgstr "Lập trình"
+#: .\blog\templates\update_post.html:8
+msgid "Inpriration"
+msgstr "Cảm hứng"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-01-22 04:37+0700\n"
+"POT-Creation-Date: 2021-01-30 02:51+0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,53 +18,72 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: .\blog\static\js\customize.js:18 .\blog\static\js\customize.js:115
-#: .\blog\static\js\customize.js:213 .\blog\static\js\customize.js:219
+#: .\blog\static\js\customize.js:18 .\blog\static\js\customize.js:136
+#: .\blog\static\js\customize.js:142 .\blog\static\js\customize.js:237
+#: .\blog\static\js\customize.js:257
 msgid "Reply"
 msgstr "Trả lời"
 
-#: .\blog\static\js\customize.js:81 .\blog\static\js\customize.js:134
+#: .\blog\static\js\customize.js:84
 msgid "Comment"
 msgstr "Bình luận"
 
-#: .\blog\static\js\customize.js:81
+#: .\blog\static\js\customize.js:84
 msgid "Cancel"
 msgstr "Hủy"
 
-#: .\blog\static\js\customize.js:86 .\blog\static\js\customize.js:289
+#: .\blog\static\js\customize.js:89 .\blog\static\js\customize.js:339
 msgid "Login"
 msgstr "Đăng nhập"
 
-#: .\blog\static\js\customize.js:86 .\blog\static\js\customize.js:289
+#: .\blog\static\js\customize.js:89 .\blog\static\js\customize.js:339
 msgid "to leave comments"
 msgstr "để bình luận"
 
-#: .\blog\static\js\customize.js:131
-msgid "Comments"
-msgstr "Bình luận"
-
-#: .\blog\static\js\customize.js:231
-msgid "en"
-msgstr "vi"
-
-#: .\blog\static\js\customize.js:241
+#: .\blog\static\js\customize.js:291
 msgid "WARNING"
 msgstr "CẢNH BÁO"
 
-#: .\blog\static\js\customize.js:271
+#: .\blog\static\js\customize.js:321
 msgid "Leave a comment"
 msgstr "Bình luận"
 
-#: .\blog\static\js\customize.js:274
+#: .\blog\static\js\customize.js:324
 msgid "Name"
 msgstr "Tên"
 
-#: .\blog\static\js\customize.js:278
+#: .\blog\static\js\customize.js:328
 msgid "Message"
 msgstr "Nội dung"
 
-#: .\blog\static\js\customize.js:282
-#, fuzzy
-#| msgid "Comment"
+#: .\blog\static\js\customize.js:332
 msgid "Post Comment"
 msgstr "Bình luận"
+
+#: .\blog\static\js\customize.js:347
+msgid "en"
+msgstr "vi"
+
+#: .\blog\static\js\customize.js:355
+msgid "Enter your username"
+msgstr "Tên đăng nhập"
+
+#: .\blog\static\js\customize.js:356
+msgid "First name"
+msgstr "Tên"
+
+#: .\blog\static\js\customize.js:357
+msgid "Last name"
+msgstr "Họ"
+
+#: .\blog\static\js\customize.js:358
+msgid "Enter your email"
+msgstr "Email"
+
+#: .\blog\static\js\customize.js:359
+msgid "Enter your password"
+msgstr "Mật khẩu"
+
+#: .\blog\static\js\customize.js:360
+msgid "Confirm your password"
+msgstr "Xác nhận mật khẩu"

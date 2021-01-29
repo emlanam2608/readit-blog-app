@@ -1,34 +1,35 @@
 {% extends "base.html" %}
 {% load static %}
+{% load i18n %}
 {% block content %}
 <section class="ftco-section">
     <select name="category" id="category">
-        <option value="Technology">Technology</option>
-        <option value="Coding" {% if post.category == "Coding" %} selected= "selected" {% endif %}>Coding</option>
-        <option value="Inpriration">Inpriration</option>
+        <option value="Technology">{% trans "Technology" %}</option>
+        <option value="Coding" {% if post.category == "Coding" %} selected= "selected" {% endif %}>{% trans "Coding" %}</option>
+        <option value="Inpriration">{% trans "Inpriration" %}</option>
     </select>
     <br><br>
     <div class="post-editor">
         <p id="post-id" hidden>{{ post.id }}</p>
         
-        <p class="lable-editor">Thumbnail:</p>
+        <p class="lable-editor">{% trans "Thumbnail" %}:</p>
         <div id="thumbnail-editor">
            {{post.thumbnail|safe}}
         </div>
-        
-        <p class="lable-editor">Title:</p>
+
+        <p class="lable-editor">{% trans "Title" %}:</p>
         <div id="title-editor">
             <textarea id="post-title">{{post.title|safe}}</textarea>
         </div>
 
-        <p class="lable-editor">Content:</p>
+        <p class="lable-editor">{% trans "Content" %}:</p>
         <div id="content-editor">
         {{post.content|safe}}
         </div>
         <br>
     </div>
     <br>
-    <button type="button" onclick="updatePost()">Submit</button>
+    <button type="button" onclick="updatePost()">{% trans "Update" %}</button>
     <button type="button" onclick="test()" hidden>test</button>
 </section>
 {% endblock %}

@@ -9590,3 +9590,7 @@ div.left-sidebar{
 div.right-sidebar{
   padding-top: 6rem;
 }
+
+i.ion-ios-arrow-forward {
+  font-size: 1.2rem;
+}

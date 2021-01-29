@@ -12,7 +12,7 @@
                 <div class="row justify-content-center">
                     <div class="col-md-8">
                         <div class="mb-4">
-                            <h3 style="text-align:center;">Log In</h3>
+                            <h3 style="text-align:center;">{% trans "Log In" %}</h3>
                         </div>
                         <form method="post">
                             {% csrf_token %}
@@ -26,10 +26,10 @@
                             </div>
                             {% endfor %}
                             <div class="d-flex mb-5 align-items-center">
-                                <label class="control control--checkbox mb-0"><span>Remember me</span>
+                                <label class="control control--checkbox mb-0"><span>{% trans "Remember me" %}</span>
                                     <input type="checkbox" checked="checked">
                                 </label>
-                                <span class="ml-auto"><a href="{% url "password_reset" %}" class="forgot-pass">Forgot Password?</a></span>
+                                <span class="ml-auto"><a href="{% url "password_reset" %}" class="forgot-pass">{% trans "Forgot Password?" %}</a></span>
                             </div>
                             <input type="hidden" value="{% if request.REQUEST.next %}{{ request.REQUEST.next }}{% else %}{% if request.META.HTTP_REFERER %}{{ request.META.HTTP_REFERER}}{% else %}/{% endif %}{% endif %}" name="next" />
                             <button type="submit" class="btn btn-success btn-block btn-lg" style="padding: 6px 12px; font-weight: 400; font-size: 1em;">{% trans "Sign In" %}</button>

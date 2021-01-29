@@ -66,6 +66,6 @@
 from profanity_check import predict
 from better_profanity import profanity
 
-# txt = "fuck you"
-# print(predict([txt]))
-# print(profanity.)
+txt = "fuck you"
+print(predict([txt]))
+print(profanity.contains_profanity(txt))
