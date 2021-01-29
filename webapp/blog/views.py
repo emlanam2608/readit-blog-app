@@ -22,6 +22,7 @@ from django.http import (
     HttpResponseNotAllowed,
     HttpResponseBadRequest,
     HttpResponseRedirect,
+    Http404
 )
 
 MAX_POST_HOME_PAGE = 5
@@ -37,10 +38,12 @@ MAX_SEARCH_RESULT = 10
 def post_management(request):
     User = get_user_model()
     user = get_user(request)
+    print(user.username)
     posts = User.objects.get(id = user.id).posts.all()
+    print(posts)
     data = []
     for post in posts:
-        data.append({"id": post.id, "title": post.title})
+        data.append({"id": post.id, "title": post.title, "hidden": post.hidden})
     return render(request, "post_management.html", {"posts": data})
 
 
@@ -55,8 +58,10 @@ def create_post(request):
         thumbnail = received_json_data["thumbnail"]
         author = user
         author_username = user.username
+        hidden = False
 
-        # if pro
+        if profanity.contains_profanity(title) or profanity.contains_profanity(content):
+            hidden = True
 
         post = Post(
             category=Category.objects.get(name=category),
@@ -64,7 +69,8 @@ def create_post(request):
             content=content,
             thumbnail=thumbnail,
             author=author,
-            author_username=author_username
+            author_username=author_username,
+            hidden= hidden
         )
         post.save()
         if post:
@@ -87,11 +93,17 @@ def update_post(request, id):
         title = received_json_data["title"]
         content = received_json_data["content"]
         thumbnail = received_json_data["thumbnail"]
+        hidden = False
+
+        if profanity.contains_profanity(title) or profanity.contains_profanity(content):
+            hidden = True
+
         post = get_object_or_404(Post, id=int(id))
         post.category = Category.objects.get(name=category)
         post.title = title
         post.content = content
         post.thumbnail = thumbnail
+        post.hidden = hidden
         post.save()
         if post:
             data = {
@@ -107,7 +119,7 @@ def update_post(request, id):
                 "category": post.category,
                 "title": post.title,
                 "content": post.content,
-                "thumbnail": f"<figure class='image'><img src='{post.thumbnail}'></figure>" if post.thumbnail else ""
+                "thumbnail": f"<figure class='image'><img src='{post.thumbnail}'></figure>" if post.thumbnail else "",
             }
             return render(request, "update_post.html", {"post": data})
         else:
@@ -379,6 +391,7 @@ def truncate_wo_html_rm(string, length):
 
 def get_recent_posts(request, page=1):
     post = Post.objects.all().order_by("created_at").reverse()
+    post = [ i for i in post if i.hidden == False]
     max_length = len(post)
     data = []
     for i in range(MAX_POST_HOME_PAGE):
@@ -419,6 +432,8 @@ def get_recent_posts(request, page=1):
 
 def get_post(request, id):
     post = get_object_or_404(Post, id=int(id))
+    if post.hidden == True:
+        raise Http404("Not Found")
     figure_regex = r"<figure class=(\"|\')media(\"|\')><oembed url=(\"|\')(.*?)v=(\w*?)((\"|\')|&)(.*?)><\/oembed><\/figure>"
     tmp = re.findall(figure_regex, post.content)
     ids = [ group[4] for group in tmp]

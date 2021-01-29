@@ -38,8 +38,6 @@
                             <a id="signin" href="{% url 'signin' %}?next={{request.path}}" style="margin: auto 10px;">{% trans 'Sign in' %}</a>
                             <a id="signup" href="{% url 'signup' %}?next={{request.path}}">{% trans 'Sign up' %}</a>
                     {% endif %}
-                </li>
-                <li>
                     <div style="position: absolute; right: 20px; top: 20px; border-style: none;">
                         <form action="{% url 'set_language' %}" method="POST">{% csrf_token %}
                             <input type="hidden" name="next" value="{{ request.get_full_path|slice:'3:' }}">
@@ -56,6 +54,23 @@
                         </form>
                     </div>
                 </li>
+                <!-- <li>
+                    <div style="position: absolute; right: 20px; top: 20px; border-style: none;">
+                        <form action="{% url 'set_language' %}" method="POST">{% csrf_token %}
+                            <input type="hidden" name="next" value="{{ request.get_full_path|slice:'3:' }}">
+                            <select name="language" onchange="this.form.submit()">
+                                {% get_available_languages as LANGUAGES %}
+                                {% get_language_info_list for LANGUAGES as languages %}
+                                {% get_current_language as LANGUAGE_CODE %}
+                                {% for language in languages %}
+                                    <option value="{{ language.code }}" {% if language.code == LANGUAGE_CODE %} selected{% endif %}>
+                                        {% comment %} {{ language.name_local }}{% endcomment %} {{ language.code }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </form>
+                    </div>
+                </li> -->
             </ul>
         </div>
     </div>

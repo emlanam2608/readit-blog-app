@@ -3,12 +3,20 @@
 {% load i18n %}
 {% block content %}
 <section class="ftco-section">
-    <h4>Post Management</h5>
+    <h2>Post Management</h2>
     <br>
-    <a href="/en/blog/my_post/create/">Create new post</a>
-    <h2>My posts</h2>
-    {% for post in posts %}
-        <a href="{% url 'update_post' id=post.id %}">{{post.title|safe}}</a><br>
-    {% endfor %}
+    <button style="border: none; background-color: #6c757db8; border-radius: 5px;"><a style="size: 5rem;" href="/en/blog/my_post/create/">Create new post</a></button>
+    <button style="border: none; background-color: #6c757db8; border-radius: 5px; color: #ffd369;" data-toggle="collapse" data-target="#my-post-section">My posts</button>
+    <div  id="my-post-section"><br>
+        {% for post in posts %}
+        <div style="border: 1px solid black; max-width: 70rem;">
+            <p>{{post.title}}  <span><button style="border: none; background-color: #6c757db8; border-radius: 5px;"><a style="color: black;" href="{% url 'update_post' id=post.id %}">Edit</a></button></span></p>
+            {% if post.hidden %}
+            <span style="color: red;">(This post is hidden due to containing bad words!)</span>
+        {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+        
 </section>
 {% endblock %}
