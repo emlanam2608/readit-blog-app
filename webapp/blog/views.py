@@ -15,6 +15,7 @@ from blog.forms import SignUpForm
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, UserChangeForm, PasswordChangeForm
 from blog.models import Post, Comment, Category
 from django.utils.translation import gettext as _
+from better_profanity import profanity
 from django.http import (
     HttpResponse,
     JsonResponse,
@@ -54,6 +55,9 @@ def create_post(request):
         thumbnail = received_json_data["thumbnail"]
         author = user
         author_username = user.username
+
+        # if pro
+
         post = Post(
             category=Category.objects.get(name=category),
             title=title,
@@ -189,9 +193,7 @@ def password_change(request):
         'form': form
     })
 
-def reset_password(request):
 
-    pass
 def signup(request):
     if request.method == "POST":
         form = SignUpForm(request.POST)
@@ -276,8 +278,6 @@ def load_comments(request, id):
             continue
         comment["created_at"] = format_datetime(comment["created_at"])
         comments.append(comment)
-
-    print(comments)
     level_array = []
     x = 0
     y = 1
@@ -295,7 +295,6 @@ def load_comments(request, id):
                 temp[str(c["parent_id"])].append(c)
             else:
                 temp[str(c["parent_id"])] = [c]
-        print(temp)
         for c in level_array[-2]:
             if str(c["id"]) in temp:
                 c['children'] = [ item for item in temp[str(c["id"])]]
@@ -303,7 +302,6 @@ def load_comments(request, id):
         level_array.pop()
 
     level_array = [ i for j in level_array for i in j]
-    print(level_array)
 
     # for comment in comments:
     #     if not comment["parent_id"]:
@@ -339,7 +337,6 @@ def post_comment(request):
             author_username = author.username
 
             if "parent_id" in received_json_data:
-                print("yes")
                 parent_id = received_json_data["parent_id"]
                 comment = Comment(
                     post_id=post_id, author=author, content=content, parent_id=parent_id, author_username=author_username
@@ -429,6 +426,18 @@ def get_post(request, id):
     replace_regex = re.compile(r"<figure class=.*?><\/oembed><\/figure>")
     for id in ids:
         post.content = re.sub(replace_regex, f"<div style='position: relative; padding-bottom: 100%; height: 0; padding-bottom: 56.2493%;'><iframe src='https://www.youtube.com/embed/{id}' style='position: absolute; width: 100%; height: 100%; top: 0; left: 0;' frameborder='0' allow='autoplay; encrypted-media' allowfullscreen=''></iframe></div>", post.content, count=1)
+    
+    user = get_user(request)
+    is_liked = False
+    count = 0
+    if user:
+        likes = post.likes.all()
+        if user in likes:
+            is_liked = True,
+            count = likes.count()
+    
+    print(count)
+    print(is_liked)
 
     data = {
         "id": post.id,
@@ -437,6 +446,9 @@ def get_post(request, id):
         "content": post.content,
         "date": post.created_at,
         "thumbnail": post.thumbnail,
+        "is_liked": is_liked,
+        "author": post.author,
+        "total_like" : count
     }
     return data
 
@@ -693,4 +705,22 @@ def truncate_for_search_highlight(string, length):
             result = result + string[match.end():]
 
     return result
-    
+
+@login_required   
+def like(request, id):
+    user = get_user(request)
+    post = Post.objects.get(id=int(id))
+    likes = post.likes.all()
+
+    if user in likes:
+        post.likes.remove(user)
+        data = {
+            "like": False
+        }
+    else:
+        post.likes.add(user)
+        data = {
+            "like": True
+        }
+    post.save()
+    return HttpResponse(json.dumps(data), content_type="application/json")

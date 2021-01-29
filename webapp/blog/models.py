@@ -43,7 +43,10 @@ class Post(models.Model):
     author = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='posts', default=1)
     author_username = models.CharField(max_length=100, default="admin")
     # publish = models.DateTimeField(auto_now=False, auto_now_add=False)
+    likes = models.ManyToManyField(get_user_model())
     objects = models.DjongoManager()
+    hidden = models.BooleanField(default=False)
+    flag = models.BooleanField(default=False)
 
     def __str__(self):
         return f'{self.title}'

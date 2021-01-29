@@ -18,6 +18,9 @@ $(document).ready(function () {
                 var comment = "<li class='comment root-comment c-level-0'><p id='comment_id' hidden>" + dataserver.id + "</p><div class='comment-body'><h3>" + dataserver.author_username + "</h3><div class='meta mb-3'>" + format_date(dataserver.created_at) + "</div><p>" + dataserver.content + "</p><a class='replycm'>"+gettext("Reply")+"</a></div><ul class='children'></ul></li>";
                 x = comment + x;
                 document.getElementById("commentList").innerHTML = x;
+                comments_count = document.getElementById("comments_count").innerText;
+                comments_count = Number(comments_count) + 1;
+                document.getElementById("comments_count").innerText = comments_count
                 $('#leaveCommentForm #message').val('');
             }
         });
@@ -112,6 +115,9 @@ $(document).ready(function () {
             data: dataString,
             success: function (dataserver) {
                 insert_html_after_comment(root, dataserver);
+                comments_count = document.getElementById("comments_count").innerText;
+                comments_count = Number(comments_count) + 1;
+                document.getElementById("comments_count").innerText = comments_count
                 $("#replyCommentForm").remove();
             }
         });
@@ -145,10 +151,10 @@ const preload_comments = (id) => {
         success: function (dataserver, status, xhr) {
             comments_count = dataserver.slice(-1)[0]
             if (comments_count > 1) {
-                document.getElementById("comments_count").innerText = comments_count + " " + gettext("Comments")
+                document.getElementById("comments_count").innerText = comments_count
             }
             else if (comments_count == 1) {
-                document.getElementById("comments_count").innerText = comments_count + " " + gettext("Comment")
+                document.getElementById("comments_count").innerText = comments_count
             }
             dataserver.pop()
             data = dataserver.reverse();
@@ -478,3 +484,29 @@ $("#profile-form").submit(function(e) {
 
     e.preventDefault();
 });
+
+
+function copyURL(){
+    let input = document.createElement('input');
+    document.body.append(input);
+    input.value = document.location.href;
+    input.select();
+    document.execCommand('copy');
+    input.remove();
+}
+
+// select the target node
+var target = document.querySelector('section.hero-wrap');
+
+// create an observer instance
+var observer = new MutationObserver(function(mutations) {
+    mutations.forEach(function(mutation) {
+        console.log(mutation);
+    });    
+});
+
+// configuration of the observer:
+var config = { attributes: true, childList: true, characterData: true }
+
+// pass in the target node, as well as the observer options
+observer.observe(target, config);

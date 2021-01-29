@@ -1,7 +1,7 @@
 {% load static %}
 {% load i18n %}
 <nav class="navbar px-md-0 navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light {% if request.resolver_match.url_name == 'post' or 'signup' or 'login' %}header-post{%endif%}" id="ftco-navbar">
-    <div class="container">
+    <div class="container" style="display: flex; align-items: center; justify-content: center; height: 100%;">
         <a class="navbar-brand" href=" {% url 'home' %} ">Read<i>it</i>.</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="oi oi-menu">{% trans 'Menu' %}</span>
@@ -62,10 +62,9 @@
 </nav>
 <!-- END nav -->
 {% if request.resolver_match.url_name == 'category' %}
-<section class="hero-wrap hero-wrap-2 js-fullheight" style="background-image: url(' {% static 'images/bg_1.jpg' %} ');" data-stellar-background-ratio="0.5">
-    <div class="overlay"></div>
-    <div class="container">
-        <div class="row no-gutters slider-text js-fullheight align-items-center justify-content-center">
+<section class="hero-wrap hero-wrap-2 js-fullheight" style="height:40rem; background-image: linear-gradient(45deg, #f200ff38 0%, #ffc10738 100%),url(' {% static 'images/bg_1.jpg' %} ');" data-stellar-background-ratio="0.5">
+    <div class="container" style="display: flex; align-items: center; justify-content: center; height: 100%;">
+        <div class="row no-gutters slider-text js-fullheight align-items-center justify-content-center" style="height:40rem;">
             <div class="col-md-9 ftco-animate pb-5 text-center">
                 <h1 class="mb-3 bread">{% trans nav_tab|title %}</h1>
                 <p class="breadcrumbs"><span class="mr-2"><a href=" {% url 'home' %} ">{% trans 'Home' %}<i class="ion-ios-arrow-forward"></i></a></span> <span class="mr-2"><a href=" {% url 'home' %} ">{% trans "Category" %} <i class="ion-ios-arrow-forward"></i></a></span> <span><a href="{% url 'category' cat=nav_tab%} " >{% trans nav_tab %}</a> <i class="ion-ios-arrow-forward"></i></span></p>
@@ -80,10 +79,9 @@
 </section>
 {% comment %} {% elif request.resolver_match.url_name == 'post' or request.resolver_match.url_name == 'signup' or request.resolver_match.url_name == 'login' %} {% endcomment %}
 {% elif request.resolver_match.url_name == 'home' %}
-<div class="hero-wrap js-fullheight" style="background-image: url(' {% static 'images/bg_1.jpg' %} ');" data-stellar-background-ratio="0.5">
-    <div class="overlay"></div>
-    <div class="container">
-        <div class="row no-gutters slider-text js-fullheight align-items-center justify-content-start" data-scrollax-parent="true">
+<section class="hero-wrap hero-wrap-2 js-fullheight" style="height:40rem; background-image: linear-gradient(45deg, #f200ff38 0%, #ffc10738 100%),url(' {% static 'images/bg_1.jpg' %} ');" data-stellar-background-ratio="0.5">
+    <div class="container" style="display: flex; align-items: center; justify-content: center; height: 100%;">
+        <div class="row no-gutters slider-text js-fullheight align-items-center justify-content-start" data-scrollax-parent="true" style="height: 40rem !important;">
             <div class="col-md-12 ftco-animate">
                 <h2 class="subheading">{% trans 'Hello! Welcome to' %}</h2>
                 <h1 class="mb-4 mb-md-0">Readit blog</h1>

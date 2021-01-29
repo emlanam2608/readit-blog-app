@@ -8029,7 +8029,7 @@ h1, h2, h3, h4, h5,
 
 .ftco-navbar-light {
   background: transparent !important;
-  position: absolute;
+  position: inherit;
   top: 20px;
   left: 0;
   right: 0;
@@ -8243,7 +8243,7 @@ h1, h2, h3, h4, h5,
   @media (max-width: 1199.98px) {
     .slider-text h1 {
       font-size: 14vw; } }
-  .slider-text h1 span {
+  .align-items-center h1 span {
     color: #ffd369; }
 
 .slider-text .subheading {
@@ -9569,3 +9569,24 @@ figure img {
 /* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
 .show {display:block;}
 /* test */
+
+i { font-size: 2.2rem; }
+
+div.subscribe {
+  display: flex;
+  flex-direction: column;
+}
+
+div.left-sidebar, div.right-sidebar{
+  position: sticky;
+  top: 0;
+}
+
+div.left-sidebar{
+  padding-top: 10rem;
+  margin-bottom: 10rem;
+}
+
+div.right-sidebar{
+  padding-top: 6rem;
+}
